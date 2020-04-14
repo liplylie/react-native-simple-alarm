@@ -1,0 +1,43 @@
+{
+  "name": "react-native-simple-alarm",
+  "title": "React Native Simple Alarm",
+  "version": "1.0.0",
+  "description": "TODO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github_account/react-native-simple-alarm.git",
+    "baseUrl": "https://github.com/github_account/react-native-simple-alarm"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "yourname@email.com"
+  },
+  "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
+  "peerDependencies": {
+    "react": "^16.8.1",
+    "react-native": ">=0.60.0-rc.0 <1.0.x"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
+    "@react-native-community/async-storage": "^1.9.0",
+    "@react-native-community/eslint-config": "^1.0.0",
+    "@react-native-community/push-notification-ios": "^1.1.1",
+    "babel-jest": "^25.3.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.3.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "moment": "^2.24.0",
+    "react-native-push-notification": "^3.1.9",
+    "react-test-renderer": "16.11.0"
+  }
+}
