@@ -2,9 +2,6 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 import { Actions } from "react-native-router-flux";
 
-// Global
-import { Convert } from "../styles";
-
 // Components
 import NavBar from "../Common/NavBar";
 import AlarmList from "./AlarmList";
@@ -22,7 +19,6 @@ const Home = () => {
     <View style={{ display: "flex", flex: 1 }}>
       <NavBar
         title="Alarms"
-        leftButtonIcon="music"
         rightButtonIcon="plus"
         onLeftButtonPress={handleMusicSymbolPress}
         onRightButtonPress={handleAddAlarm}

@@ -30,7 +30,7 @@ export class Alarm {
 }
 
 Alarm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active: PropTypes.boolean,
   date: PropTypes.string.isRequired,
   message: PropTypes.string,

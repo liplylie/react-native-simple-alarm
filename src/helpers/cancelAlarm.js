@@ -10,9 +10,7 @@ import PushNotification from "react-native-push-notification";
 import { Platform } from "react-native";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
-export const cancelAlarm = (alarm) => {
-  const { id } = alarm;
-
+export const cancelAlarm = (id) => {
   if (Platform.OS === "ios") {
     // this logic is needed because of how ios alarms are set
     PushNotificationIOS.getScheduledLocalNotifications((notification) => {

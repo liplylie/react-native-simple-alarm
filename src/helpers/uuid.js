@@ -29,3 +29,4 @@ export const uuid = () => {
   }
 };
 
+export default uuid;
