@@ -1,31 +1,27 @@
-import React from "react";
-import { View, ScrollView } from "react-native";
-import { Actions } from "react-native-router-flux";
+import React from 'react';
+import {View, SafeAreaView} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 // Components
-import NavBar from "../Common/NavBar";
-import AlarmList from "./AlarmList";
+import NavBar from '../Common/NavBar';
+import AlarmList from './AlarmList';
 
 const Home = () => {
-  const handleMusicSymbolPress = () => {
-    Actions.Game();
-  };
-
   const handleAddAlarm = () => {
     Actions.AddAlarms();
   };
 
   return (
-    <View style={{ display: "flex", flex: 1 }}>
+    <View style={{display: 'flex', flex: 1}}>
       <NavBar
         title="Alarms"
         rightButtonIcon="plus"
-        onLeftButtonPress={handleMusicSymbolPress}
         onRightButtonPress={handleAddAlarm}
       />
-      <ScrollView contentContainerStyle={{ display: "flex", flex: 1 }}>
+
+      <SafeAreaView style={{display: 'flex', flex: 1}}>
         <AlarmList />
-      </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };

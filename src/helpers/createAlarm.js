@@ -7,7 +7,7 @@ import Alarm from "./Alarm.js";
 import uuid from "./uuid.js";
 import { alarmStorage } from "./constants.js";
 
-export const createAlarm = ({
+export const createAlarm = async ({
   active = false,
   date = "",
   message = "Alarm",
@@ -28,27 +28,27 @@ export const createAlarm = ({
     date,
     message,
     snooze,
-    userInfo
+    userInfo,
   });
-  const storage = AsyncStorage.getItem(alarmStorage);
+  const storage = await AsyncStorage.getItem(alarmStorage);
 
   if (storage && storage.length > 0) {
-    const updatedStorage = [...storage, alarm];
+    const updatedStorage = JSON.stringify([...JSON.parse(storage), alarm]);
     AsyncStorage.setItem(alarmStorage, updatedStorage);
   } else {
-    AsyncStorage.setItem(alarmStorage, [alarm]);
+    AsyncStorage.setItem(alarmStorage, JSON.stringify([alarm]));
   }
 
   return alarm;
 };
 
 createAlarm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active: PropTypes.boolean,
   date: PropTypes.string.isRequired,
   message: PropTypes.string,
   snooze: PropTypes.number,
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
 };
 
 export default createAlarm;

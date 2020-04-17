@@ -26,6 +26,7 @@ export class Alarm {
     this.message = message;
     this.snooze = snooze;
     this.userInfo = userInfo;
+    this.oid = id;
   }
 }
 
@@ -35,7 +36,7 @@ Alarm.propTypes = {
   date: PropTypes.string.isRequired,
   message: PropTypes.string,
   snooze: PropTypes.number,
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
 };
 
 export default Alarm;

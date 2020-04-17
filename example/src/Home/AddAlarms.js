@@ -67,7 +67,7 @@ class AddAlarm extends Component {
     });
   };
 
-  _addAlarm = () => {
+  _addAlarm = async () => {
     let {edit} = this.props;
     let {time, date, message, snooze} = this.state;
     if (!time) {
@@ -87,34 +87,28 @@ class AddAlarm extends Component {
           snooze,
         });
 
-        setAlarm(alarm);
+        await setAlarm(alarm);
       } else {
         let alarm = createAlarm({
-          time,
           active: true,
           date,
           message,
           snooze,
         });
-
-        setAlarm(alarm);
+        await setAlarm(alarm);
       }
 
       Actions.Home();
     }
   };
 
-  _editAlarm = () => {
+  _editAlarm = async () => {
     const {edit} = this.props;
     let {
       time,
       date,
       message,
       snooze,
-      answersNeeded,
-      instrument,
-      intervalType,
-      gameType,
     } = this.state;
 
     if (!time) {
@@ -125,12 +119,13 @@ class AddAlarm extends Component {
       if (moment(date).isBefore(moment().startOf('minute'))) {
         date = moment(date).add(1, 'days').startOf('minute').format();
       }
-      cancelAlarm(id);
+      await cancelAlarm(id);
 
-      setAlarm({
+      await setAlarm({
         id,
         date,
         snooze,
+        message
       });
 
       Actions.Home();

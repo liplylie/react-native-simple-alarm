@@ -10,12 +10,16 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {Actions} from 'react-native-router-flux';
 import RadioForm from 'react-native-simple-radio-button';
 import moment from 'moment';
-import {cancelAlarm, setAlarm, deleteAlarm} from 'react-native-simple-alarm';
+import {
+  cancelAlarmById,
+  setAlarm,
+  deleteAlarmById,
+  getAlarms,
+} from 'react-native-simple-alarm';
 
 // Global
 import {Colors, Convert} from '../styles';
@@ -23,6 +27,17 @@ import {Colors, Convert} from '../styles';
 const {height, width} = Dimensions.get('window');
 
 class AlarmList extends Component {
+  state = {
+    alarms: [],
+  };
+
+  async componentDidMount() {
+    const alarms = await getAlarms();
+    this.setState({
+      alarms,
+    });
+  }
+
   confirmDeletePress = (data, rowRef) => {
     Alert.alert('Are you sure?', 'Your alarm will be deleted', [
       {
@@ -55,36 +70,32 @@ class AlarmList extends Component {
     }
   };
 
-  renderAlarms = (data) => {
-    let radio_props = [
+  renderAlarms = ({item}) => {
+    const radio_props = [
       {label: 'On', value: 1},
       {label: 'Off', value: 0},
     ];
-    let alarmColor = ['rgba(240, 240, 240, 0.9)', 'rgba(200, 200, 200, 1)'];
-    let alarmReverse = ['rgba(200, 200, 200, 1)', 'rgba(240, 240, 240, 0.9)'];
-    if (!data) {
+
+    if (!item) {
       return null;
     }
     return (
-      <LinearGradient
-        style={styles.alarmContainer}
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 1, y: 1.0}}
-        colors={data.active ? alarmColor : alarmReverse}>
+      <View style={styles.alarmContainer}>
         <View style={{display: 'flex', flexDirection: 'column'}}>
           <View style={styles.alarm}>
-            <TouchableOpacity onPress={() => Actions.EditAlarm({edit: data})}>
+            <TouchableOpacity onPress={() => Actions.EditAlarm({edit: item})}>
               <Text style={{fontSize: Convert(40), paddingLeft: Convert(10)}}>
-                {data.time}
+                {moment(item.date).format('hh:mm A')}
               </Text>
             </TouchableOpacity>
+
             <RadioForm
               radio_props={radio_props}
               labelColor={'gray'}
-              onPress={(value) => this.handleAlarmActivation(value, data)}
+              onPress={(value) => this.handleAlarmActivation(value, item)}
               formHorizontal={true}
               animation={true}
-              initial={data.active ? 0 : 1}
+              initial={item.active ? 0 : 1}
               radioStyle={{paddingRight: Convert(13)}}
               style={{marginLeft: Convert(60)}}
             />
@@ -96,23 +107,24 @@ class AlarmList extends Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>{data.message}</Text>
+            <Text>{item.message}</Text>
           </View>
         </View>
-      </LinearGradient>
+      </View>
     );
   };
 
-  handleDeletePress = (data, rowRef) => {
-    cancelAlarm(data.id);
-    deleteAlarm(data.id);
+  handleDeletePress = async (data, rowRef) => {
+    const {item} = data;
+    await cancelAlarmById(item.id);
+    const updatedAlarms = await deleteAlarmById(item.id);
+    this.setState({
+      alarms: updatedAlarms,
+    });
     rowRef.manuallySwipeRow(0);
   };
 
   render() {
-    const {alarms = []} = this.props;
-    const dataSource = alarms;
-
     return (
       <SwipeListView
         style={{
@@ -120,9 +132,9 @@ class AlarmList extends Component {
           height: height,
           backgroundColor: Colors.lightGray,
         }}
-        dataSource={dataSource}
-        renderRow={this.renderAlarms}
-        renderHiddenRow={(data, secId, rowId, rowMap) => (
+        data={this.state.alarms}
+        renderItem={this.renderAlarms}
+        renderHiddenItem={(data, rowMap) => (
           <View
             style={{
               alignSelf: 'flex-end',
@@ -133,7 +145,7 @@ class AlarmList extends Component {
             }}>
             <TouchableOpacity
               onPress={() =>
-                this.confirmDeletePress(data, rowMap[`${secId}${rowId}`])
+                this.confirmDeletePress(data, rowMap[data.item.key])
               }>
               <Image
                 style={{
@@ -141,7 +153,7 @@ class AlarmList extends Component {
                   width: Convert(60),
                 }}
                 source={require('../../assets/images/trash.png')}
-              />
+            />
             </TouchableOpacity>
           </View>
         )}
@@ -166,7 +178,8 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowRadius: 3,
-    shadowOpacity: 1.0,
+    shadowOpacity: 0.2,
+    backgroundColor: 'white',
   },
   alarm: {
     display: 'flex',
