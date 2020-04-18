@@ -14,16 +14,35 @@ import PushNotification from "react-native-push-notification";
 import moment from "moment";
 import PropTypes from "prop-types";
 
-export const setAlarm = ({
-  id,
-  date,
-  snooze,
-  message = "Alarm",
-  userInfo = {},
-  soundName = ""
-}) => {
+// local
+import { editAlarm } from "./editAlarm";
+import { getAlarmById } from "./getAlarms";
+
+export const setAlarmById = async (id) => {
+  if (!id) {
+    console.error("Please enter an id");
+    return null;
+  }
+
+  const alarm = await getAlarmById(id);
+  if (!alarm) {
+    console.error("There is not an alarm with this id");
+    return null;
+  }
+
+  await editAlarm(Object.assign({}, alarm, { active: true }));
+
+  const {
+    date,
+    snooze,
+    message = "Alarm",
+    userInfo = {},
+    soundName = "",
+  } = alarm;
+
   if (Platform.OS === "android") {
-    let repeatTime = 1000 * 60 * Number(snooze);
+    const repeatTime = 1000 * 60 * Number(snooze);
+
     PushNotification.localNotificationSchedule({
       soundName,
       message,
@@ -36,8 +55,8 @@ export const setAlarm = ({
         ...userInfo,
         id: JSON.stringify(id),
         oid: JSON.stringify(id),
-        snooze
-      }
+        snooze,
+      },
     });
   } else {
     // ios push notifications only last for 5 seconds.
@@ -56,21 +75,16 @@ export const setAlarm = ({
             ...userInfo,
             id: id + String(j) + String(i),
             oid: id,
-            snooze
-          }
+            snooze,
+          },
         });
       }
     }
   }
 };
 
-setAlarm.propTypes = {
+setAlarmById.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  date: PropTypes.string.isRequired,
-  snooze: PropTypes.number,
-  message: PropTypes.string,
-  userInfo: PropTypes.object.isRequired,
-  soundName: PropTypes.string
 };
 
-export default setAlarm;
+export default setAlarmById;

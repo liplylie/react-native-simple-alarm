@@ -7,7 +7,6 @@ import {
   Image,
   View,
   TouchableOpacity,
-  Platform,
   StyleSheet,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -16,7 +15,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import moment from 'moment';
 import {
   cancelAlarmById,
-  setAlarm,
+  setAlarmById,
   deleteAlarmById,
   getAlarms,
 } from 'react-native-simple-alarm';
@@ -53,20 +52,9 @@ class AlarmList extends Component {
 
   handleAlarmActivation = (value, alarm) => {
     if (value === 0) {
-      cancelAlarm(Platform.OS, alarm.id);
+      cancelAlarmById(alarm.id);
     } else if (value === 1) {
-      if (!moment(alarm.date).isAfter(moment.now())) {
-        let diff = moment().diff(moment(alarm.date), 'days');
-        alarm.date = moment(alarm.date)
-          .add(diff + 1, 'days')
-          .format();
-      }
-      setAlarm({
-        id: alarm.id,
-        date: alarm.date,
-        snooze: alarm.snooze,
-        message: alarm.message,
-      });
+      setAlarmById(alarm.id);
     }
   };
 
@@ -153,7 +141,7 @@ class AlarmList extends Component {
                   width: Convert(60),
                 }}
                 source={require('../../assets/images/trash.png')}
-            />
+              />
             </TouchableOpacity>
           </View>
         )}

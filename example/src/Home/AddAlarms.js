@@ -14,7 +14,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
 import ModalSelector from 'react-native-modal-selector';
-import {createAlarm, cancelAlarm, setAlarm} from 'react-native-simple-alarm';
+import {createAlarm, editAlarm} from 'react-native-simple-alarm';
 
 // Global
 import {Convert} from '../styles';
@@ -29,15 +29,14 @@ class AddAlarm extends Component {
   state = {
     isDateTimePickerVisible: false,
     time: this.props.edit
-      ? this.props.edit.time
+      ? moment(this.props.edit.date).startOf('minute').format('hh:mm A')
       : moment().startOf('minute').format('hh:mm A'),
     date: this.props.edit
       ? this.props.edit.date
       : moment().startOf('minute').format(),
     message: this.props.edit ? this.props.edit.message : '',
     springSpeed: 500,
-    snooze: this.props.edit ? Number(this.props.edit.snoozeTime) : 1,
-    answersNeeded: this.props.edit ? Number(this.props.edit.answersNeeded) : 3,
+    snooze: this.props.edit ? Number(this.props.edit.snooze) : 1,
     snoozePicker: false,
   };
 
@@ -59,44 +58,32 @@ class AddAlarm extends Component {
 
   _handleDatePicked = (date) => {
     this._hideDateTimePicker();
-    let time = moment(date).startOf('minute').format('hh:mm A');
-    date = moment(date).startOf('minute').format();
+    const time = moment(date).startOf('minute').format('hh:mm A');
+    const newDate = moment(date).startOf('minute').format();
+
     this.setState({
       time,
-      date,
+      date: newDate,
     });
   };
 
   _addAlarm = async () => {
-    let {edit} = this.props;
     let {time, date, message, snooze} = this.state;
+
     if (!time) {
       alert('Please enter a time for the alarm');
     } else {
+      let newDate = date;
       if (moment(date).isBefore(moment().startOf('minute'))) {
         date = moment(date).add(1, 'days').startOf('minute').format();
       }
 
-      if (edit) {
-        let alarm = createAlarm({
-          id: edit.id,
-          time,
-          active: true,
-          date,
-          message,
-          snooze,
-        });
-
-        await setAlarm(alarm);
-      } else {
-        let alarm = createAlarm({
-          active: true,
-          date,
-          message,
-          snooze,
-        });
-        await setAlarm(alarm);
-      }
+      createAlarm({
+        active: true,
+        date: newDate,
+        message,
+        snooze,
+      });
 
       Actions.Home();
     }
@@ -104,28 +91,23 @@ class AddAlarm extends Component {
 
   _editAlarm = async () => {
     const {edit} = this.props;
-    let {
-      time,
-      date,
-      message,
-      snooze,
-    } = this.state;
+    let {time, date, message, snooze} = this.state;
 
     if (!time) {
       alert('Please enter a time for the alarm');
     } else {
       let id = edit.id;
+      let newDate = date;
 
       if (moment(date).isBefore(moment().startOf('minute'))) {
-        date = moment(date).add(1, 'days').startOf('minute').format();
+        newDate = moment(date).add(1, 'days').startOf('minute').format();
       }
-      await cancelAlarm(id);
 
-      await setAlarm({
+      await editAlarm({
         id,
-        date,
+        date: newDate,
         snooze,
-        message
+        message,
       });
 
       Actions.Home();

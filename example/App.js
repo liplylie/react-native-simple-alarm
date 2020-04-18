@@ -13,11 +13,7 @@ export default class App extends Component {
   componentDidMount() {
     PushNotification.configure({
       onNotification: function (notification) {
-        let currentScene = Actions.currentScene;
-        console.log(currentScene, 'currentScene');
-        let {userInteraction, foreground, data, userInfo} = notification;
-        const clicked = userInteraction;
-
+        const {userInteraction, foreground, data, userInfo} = notification;
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
       permissions: {
@@ -31,6 +27,11 @@ export default class App extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
+    PushNotification.checkPermissions((permissions) => {
+      if (!permissions.alert) {
+        alert('Please enable push notifications for the alarm to work');
+      }
+    });
   }
 
   _handleAppStateChange = async (appState) => {

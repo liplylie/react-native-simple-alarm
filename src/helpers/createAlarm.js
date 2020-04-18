@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 // local
 import Alarm from "./Alarm.js";
 import uuid from "./uuid.js";
+import { setAlarmById } from "./setAlarm";
 import { alarmStorage } from "./constants.js";
 
 export const createAlarm = async ({
@@ -12,7 +13,8 @@ export const createAlarm = async ({
   date = "",
   message = "Alarm",
   snooze = 0,
-  userInfo = {}
+  userInfo = {},
+  soundName = ""
 }) => {
   if (!date) {
     console.error("Please enter a date");
@@ -29,14 +31,19 @@ export const createAlarm = async ({
     message,
     snooze,
     userInfo,
+    soundName
   });
   const storage = await AsyncStorage.getItem(alarmStorage);
 
   if (storage && storage.length > 0) {
     const updatedStorage = JSON.stringify([...JSON.parse(storage), alarm]);
-    AsyncStorage.setItem(alarmStorage, updatedStorage);
+    await AsyncStorage.setItem(alarmStorage, updatedStorage);
   } else {
-    AsyncStorage.setItem(alarmStorage, JSON.stringify([alarm]));
+    await AsyncStorage.setItem(alarmStorage, JSON.stringify([alarm]));
+  }
+
+  if (active) {
+    await setAlarmById(alarm.id);
   }
 
   return alarm;
@@ -49,6 +56,7 @@ createAlarm.propTypes = {
   message: PropTypes.string,
   snooze: PropTypes.number,
   userInfo: PropTypes.object,
+  soundName: PropTypes.string
 };
 
 export default createAlarm;

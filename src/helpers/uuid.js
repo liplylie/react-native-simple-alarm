@@ -1,7 +1,5 @@
 // libs
-import {
-  Platform
-} from "react-native";
+import { Platform } from "react-native";
 
 export const uuid = () => {
   if (Platform.OS === "ios") {
