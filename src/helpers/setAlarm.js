@@ -15,7 +15,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 
 // local
-import { editAlarm } from "./editAlarm";
+import { editAlarmWithoutSetAlarm } from "./editAlarm";
 import { getAlarmById } from "./getAlarms";
 
 export const setAlarmById = async (id) => {
@@ -30,7 +30,7 @@ export const setAlarmById = async (id) => {
     return null;
   }
 
-  await editAlarm(Object.assign({}, alarm, { active: true }));
+  await editAlarmWithoutSetAlarm(Object.assign({}, alarm, { active: true }));
 
   const {
     date,
@@ -79,6 +79,89 @@ export const setAlarmById = async (id) => {
           },
         });
       }
+    }
+  }
+};
+
+setAlarmById.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
+
+// doesn't call edit alarm again
+export const setAlarmWithoutEdit = async (id) => {
+  if (!id) {
+    console.error("Please enter an id");
+    return null;
+  }
+
+  const alarm = await getAlarmById(id);
+  if (!alarm) {
+    console.error("There is not an alarm with this id");
+    return null;
+  }
+
+  const {
+    date,
+    snooze,
+    message = "Alarm",
+    userInfo = {},
+    soundName = "",
+    multipleAlarm = false
+  } = alarm;
+
+  if (Platform.OS === "android") {
+    const repeatTime = 1000 * 60 * Number(snooze);
+
+    PushNotification.localNotificationSchedule({
+      soundName,
+      message,
+      date: new Date(date),
+      id: JSON.stringify(id),
+      notificationId: JSON.stringify(id),
+      repeatType: "time",
+      repeatTime: repeatTime,
+      userInfo: {
+        ...userInfo,
+        id: JSON.stringify(id),
+        oid: JSON.stringify(id),
+        snooze,
+      },
+    });
+  } else {
+    // ios push notifications only last for 5 seconds.
+    // This sets multiple push notifications for ios.
+    if (multipleAlarm) {
+      for (let j = 0; j < 10; j++) {
+        let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
+
+        for (let i = 0; i < 4; i++) {
+          let tempDate = moment(initialAlarm).add(i * 8, "seconds");
+
+          PushNotification.localNotificationSchedule({
+            message: message,
+            soundName,
+            date: new Date(tempDate),
+            userInfo: {
+              ...userInfo,
+              id: id + String(j) + String(i),
+              oid: id,
+              snooze,
+            },
+          });
+        }
+      }
+    } else {
+      PushNotification.localNotificationSchedule({
+        message: message,
+        soundName,
+        date: new Date(date),
+        userInfo: {
+          ...userInfo,
+          id: id,
+          oid: id,
+          snooze,
+        },
+      });
     }
   }
 };

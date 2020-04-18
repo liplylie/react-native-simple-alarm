@@ -78,7 +78,7 @@ class AddAlarm extends Component {
         date = moment(date).add(1, 'days').startOf('minute').format();
       }
 
-      createAlarm({
+      await createAlarm({
         active: true,
         date: newDate,
         message,
@@ -108,6 +108,7 @@ class AddAlarm extends Component {
         date: newDate,
         snooze,
         message,
+        active: true
       });
 
       Actions.Home();

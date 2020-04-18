@@ -21,11 +21,11 @@ export const getAlarmById = async (id) => {
   }
 
   const storage = await AsyncStorage.getItem(alarmStorage);
-
+  console.log(storage, 'storage')
   if (storage && storage.length > 0) {
     const parsedStorage = JSON.parse(storage);
     const alarm = parsedStorage.find((storageAlarm) => storageAlarm.id === id);
-    
+    console.log(alarm, 'alarm from find')
     if (alarm) {
       return alarm;
     } else {

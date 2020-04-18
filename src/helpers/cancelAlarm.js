@@ -40,12 +40,14 @@ cancelAlarm.propTypes = {
 };
 
 export const cancelAlarmById = async (id) => {
+  console.log(id, 'id')
   if (!id) {
     console.error("Please enter an alarm id");
     return null;
   }
 
   const alarm = await getAlarmById(id);
+  console.log(alarm, 'alarm')
    if (!alarm) {
      console.error("There is not an alarm with this id");
      return null;
@@ -57,7 +59,7 @@ export const cancelAlarmById = async (id) => {
     // this logic is needed because of how ios alarms are set
     PushNotificationIOS.getScheduledLocalNotifications((notification) => {
       notification.forEach(({ userInfo }) => {
-        if (userInfo.id === id || userInfo.oid === id) {
+        if (userInfo.id === id || userInfo.oid === id || userInfo.oid === alarm.oid) {
           PushNotification.cancelLocalNotifications({ id: userInfo.id });
         }
       });

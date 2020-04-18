@@ -1,19 +1,26 @@
 // libs
 import React, {Component} from 'react';
-import {Platform, AppState} from 'react-native';
+import {Platform, AppState, Alert} from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {ActionConst, Actions, Router, Scene} from 'react-native-router-flux';
+import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import PushNotification from 'react-native-push-notification';
 
 // Components
 import Home from './src/Home/Home';
 import AddAlarms from './src/Home/AddAlarms';
+import {cancelAlarmById} from 'react-native-simple-alarm';
 
 export default class App extends Component {
   componentDidMount() {
     PushNotification.configure({
       onNotification: function (notification) {
-        const {userInteraction, foreground, data, userInfo} = notification;
+        const {message, data, userInfo} = notification;
+
+        if (notification) {
+          Alert.alert(message, '', [
+            {text: 'OK', onPress: async () => await cancelAlarmById(data.oid)},
+          ]);
+        }
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
       permissions: {
@@ -27,11 +34,6 @@ export default class App extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    PushNotification.checkPermissions((permissions) => {
-      if (!permissions.alert) {
-        alert('Please enable push notifications for the alarm to work');
-      }
-    });
   }
 
   _handleAppStateChange = async (appState) => {
