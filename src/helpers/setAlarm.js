@@ -30,54 +30,78 @@ export const setAlarmById = async (id) => {
     return null;
   }
 
-  await editAlarmWithoutSetAlarm(Object.assign({}, alarm, { active: true }));
+  await editAlarmWithoutSetAlarm(
+    Object.assign({}, alarm, {
+      active: true,
+    })
+  );
 
-  const {
-    date,
-    snooze,
-    message = "Alarm",
-    userInfo = {},
-    soundName = "",
-  } = alarm;
+  let date = alarm.date;
+
+  // bug with react-native-push-notification where alarm fires if it is before the current time.
+  // https://github.com/zo0r/react-native-push-notification/issues/1336
+  if (moment().isAfter(date)) {
+    const addDayToDate = moment(date).add(1, "days").format();
+
+    await editAlarmWithoutSetAlarm(
+      Object.assign({}, alarm, {
+        date: addDayToDate,
+        active: true,
+      })
+    );
+
+    date = addDayToDate;
+  } else {
+    await editAlarmWithoutSetAlarm(
+      Object.assign({}, alarm, {
+        active: true,
+      })
+    );
+  }
+
+  const { snooze } = alarm;
 
   if (Platform.OS === "android") {
     const repeatTime = 1000 * 60 * Number(snooze);
 
-    PushNotification.localNotificationSchedule({
-      soundName,
-      message,
+    // allows other properties from react-native push notification to be included in the alarm
+    const androidAlarm = Object.assign({}, alarm, {
       date: new Date(date),
       id: JSON.stringify(id),
       notificationId: JSON.stringify(id),
       repeatType: "time",
       repeatTime: repeatTime,
       userInfo: {
-        ...userInfo,
+        ...alarm.userInfo,
         id: JSON.stringify(id),
         oid: JSON.stringify(id),
         snooze,
       },
     });
+
+    PushNotification.localNotificationSchedule(androidAlarm);
   } else {
     // ios push notifications only last for 5 seconds.
     // This sets multiple push notifications for ios.
+    // repeat time doesn't work with ios
     for (let j = 0; j < 10; j++) {
       let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
 
       for (let i = 0; i < 4; i++) {
         let tempDate = moment(initialAlarm).add(i * 8, "seconds");
 
-        PushNotification.localNotificationSchedule({
-          message: message,
-          soundName,
+        // allows other properties from react-native push notification to be included in the alarm
+        const iosAlarm = Object.assign({}, alarm, {
           date: new Date(tempDate),
           userInfo: {
-            ...userInfo,
+            ...alarm.userInfo,
             id: id + String(j) + String(i),
             oid: id,
             snooze,
           },
         });
+
+        PushNotification.localNotificationSchedule(iosAlarm);
       }
     }
   }
@@ -88,6 +112,7 @@ setAlarmById.propTypes = {
 };
 
 // doesn't call edit alarm again
+// should only be used within the library
 export const setAlarmWithoutEdit = async (id) => {
   if (!id) {
     console.error("Please enter an id");
@@ -106,10 +131,11 @@ export const setAlarmWithoutEdit = async (id) => {
     message = "Alarm",
     userInfo = {},
     soundName = "",
-    multipleAlarm = false
+    multipleAlarm = false,
   } = alarm;
 
   if (Platform.OS === "android") {
+    // repeats every x minutes
     const repeatTime = 1000 * 60 * Number(snooze);
 
     PushNotification.localNotificationSchedule({
