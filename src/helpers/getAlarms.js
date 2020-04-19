@@ -1,4 +1,5 @@
 // libs
+import PropTypes from "prop-types";
 import AsyncStorage from "@react-native-community/async-storage";
 
 // local
@@ -21,11 +22,9 @@ export const getAlarmById = async (id) => {
   }
 
   const storage = await AsyncStorage.getItem(alarmStorage);
-  console.log(storage, 'storage')
   if (storage && storage.length > 0) {
     const parsedStorage = JSON.parse(storage);
     const alarm = parsedStorage.find((storageAlarm) => storageAlarm.id === id);
-    console.log(alarm, 'alarm from find')
     if (alarm) {
       return alarm;
     } else {
@@ -34,4 +33,8 @@ export const getAlarmById = async (id) => {
   } else {
     return null;
   }
+};
+
+getAlarmById.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

@@ -40,14 +40,12 @@ cancelAlarm.propTypes = {
 };
 
 export const cancelAlarmById = async (id) => {
-  console.log(id, 'id')
   if (!id) {
     console.error("Please enter an alarm id");
     return null;
   }
 
   const alarm = await getAlarmById(id);
-  console.log(alarm, 'alarm')
    if (!alarm) {
      console.error("There is not an alarm with this id");
      return null;
@@ -73,7 +71,7 @@ cancelAlarmById.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-
+// doesn't call edit alarm
 export const cancelAlarmByIdFromDelete = async (id) => {
   if (!id) {
     console.error("Please enter an alarm id");
