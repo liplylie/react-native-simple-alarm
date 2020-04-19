@@ -8,8 +8,7 @@ import { cancelAlarmByIdFromDelete } from "./cancelAlarm";
 
 export const deleteAlarm = async (alarm) => {
   if (!alarm) {
-    console.error("Please enter an alarm");
-    return null;
+    throw new Error("Please enter an alarm");
   }
   const storage = await AsyncStorage.getItem(alarmStorage);
 
@@ -23,8 +22,7 @@ export const deleteAlarm = async (alarm) => {
 
     return updatedStorage;
   } else {
-    console.error("No alarms are set");
-    return null;
+    throw new Error("No alarms are set");
   }
 };
 
@@ -34,8 +32,7 @@ deleteAlarm.propTypes = {
 
 export const deleteAlarmById = async (id) => {
   if (!id) {
-    console.error("Please enter an alarm id");
-    return null;
+    throw new Error("Please enter an alarm id");
   }
   const storage = await AsyncStorage.getItem(alarmStorage);
 
@@ -51,8 +48,7 @@ export const deleteAlarmById = async (id) => {
 
     return updatedStorage;
   } else {
-    console.error("No alarms are set");
-    return null;
+    throw new Error("No alarms are set");
   }
 };
 
@@ -70,7 +66,6 @@ export const deleteAllAlarms = async () => {
     await AsyncStorage.clear();
     return [];
   } else {
-    console.error("No alarms are set");
-    return null;
+    throw new Error("No alarms are set");
   }
 };

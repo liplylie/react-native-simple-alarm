@@ -17,8 +17,7 @@ export const createAlarm = async ({
   soundName = ""
 }) => {
   if (!date) {
-    console.error("Please enter a date");
-    return null;
+    throw new Error("Please enter a date");
   }
 
   // oid is used to reference id's from ios push notification

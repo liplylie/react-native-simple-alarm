@@ -19,15 +19,13 @@ import { setAlarmWithoutEdit } from "./setAlarm";
 
 export const editAlarm = async (alarm) => {
   if (!alarm) {
-    console.error("There is not an alarm");
-    return null;
+    throw new Error("There is not an alarm");
   }
   // get all properties for alarm
   const alarmFromStorage = await getAlarmById(alarm.id);
 
   if (!alarmFromStorage) {
-    console.error("This alarm does not exist. Please create a new one.");
-    return null;
+    throw new Error("This alarm does not exist. Please create a new one.");
   }
 
   if (alarm) {
@@ -50,12 +48,10 @@ export const editAlarm = async (alarm) => {
 
       return updatedStorage;
     } else {
-      console.error("No alarms are set");
-      return null;
+      throw new Error("No alarms are set");
     }
   } else {
-    console.error("No alarms are set");
-    return null;
+    throw new Error("No alarms are set");
   }
 };
 
@@ -66,16 +62,14 @@ editAlarm.propTypes = {
 // doesn't call setalarm again
 export const editAlarmWithoutSetAlarm = async (alarm) => {
   if (!alarm) {
-    console.error("There is not an alarm");
-    return null;
+    throw new Error("There is not an alarm");
   }
 
   // get all properties for alarm
   const alarmFromStorage = await getAlarmById(alarm.id);
 
   if (!alarmFromStorage) {
-    console.error("This alarm does not exist. Please create a new one.");
-    return null;
+    throw new Error("This alarm does not exist. Please create a new one.");
   }
 
   if (alarm) {
@@ -94,12 +88,10 @@ export const editAlarmWithoutSetAlarm = async (alarm) => {
 
       return updatedStorage;
     } else {
-      console.error("No alarms are set");
-      return null;
+      throw new Error("No alarms are set");
     }
   } else {
-    console.error("No alarms are set");
-    return null;
+    throw new Error("No alarms are set");
   }
 };
 

@@ -17,8 +17,7 @@ export const getAlarms = async () => {
 
 export const getAlarmById = async (id) => {
   if (!id) {
-    console.error("Please enter an id");
-    return null;
+    throw new Error("Please enter an id");
   }
 
   const storage = await AsyncStorage.getItem(alarmStorage);

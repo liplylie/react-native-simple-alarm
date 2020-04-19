@@ -20,14 +20,12 @@ import { getAlarmById } from "./getAlarms";
 
 export const setAlarmById = async (id) => {
   if (!id) {
-    console.error("Please enter an id");
-    return null;
+    throw new Error("Please enter an id");
   }
 
   const alarm = await getAlarmById(id);
   if (!alarm) {
-    console.error("There is not an alarm with this id");
-    return null;
+    throw new Error("There is not an alarm with this id");
   }
 
   await editAlarmWithoutSetAlarm(
@@ -115,14 +113,12 @@ setAlarmById.propTypes = {
 // should only be used within the library
 export const setAlarmWithoutEdit = async (id) => {
   if (!id) {
-    console.error("Please enter an id");
-    return null;
+    throw new Error("Please enter an id");
   }
 
   const alarm = await getAlarmById(id);
   if (!alarm) {
-    console.error("There is not an alarm with this id");
-    return null;
+    throw new Error("There is not an alarm with this id");
   }
 
   const {

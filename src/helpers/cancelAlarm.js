@@ -16,8 +16,7 @@ import { editAlarm } from "./editAlarm";
 
 export const cancelAlarm = (alarm) => {
   if (!alarm) {
-    console.error("Please enter an alarm");
-    return null;
+    throw new Error("Please enter an alarm");
   }
   const { id } = alarm;
 
@@ -41,14 +40,12 @@ cancelAlarm.propTypes = {
 
 export const cancelAlarmById = async (id) => {
   if (!id) {
-    console.error("Please enter an alarm id");
-    return null;
+    throw new Error("Please enter an alarm id");
   }
 
   const alarm = await getAlarmById(id);
    if (!alarm) {
-     console.error("There is not an alarm with this id");
-     return null;
+     throw new Error("There is not an alarm with this id");
    }
 
   await editAlarm(Object.assign({}, alarm, { active: false }));
@@ -74,8 +71,7 @@ cancelAlarmById.propTypes = {
 // doesn't call edit alarm
 export const cancelAlarmByIdFromDelete = async (id) => {
   if (!id) {
-    console.error("Please enter an alarm id");
-    return null;
+    throw new Error("Please enter an alarm id");
   }
 
   if (Platform.OS === "ios") {
