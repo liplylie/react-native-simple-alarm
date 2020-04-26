@@ -4,11 +4,11 @@ import {Platform, AppState, Alert} from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import PushNotification from 'react-native-push-notification';
+import {cancelAlarmById} from 'react-native-simple-alarm';
 
 // Components
 import Home from './src/Home/Home';
 import AddAlarms from './src/Home/AddAlarms';
-import {cancelAlarmById} from 'react-native-simple-alarm';
 
 export default class App extends Component {
   componentDidMount() {

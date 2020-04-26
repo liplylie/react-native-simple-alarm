@@ -1,4 +1,4 @@
-export { cancelAlarm, cancelAlarmById } from "./cancelAlarm.js";
+export { cancelAlarmById } from "./cancelAlarm.js";
 export * from "./createAlarm.js";
 export * from "./deleteAlarm.js";
 export { editAlarm } from "./editAlarm.js";

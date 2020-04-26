@@ -1,11 +1,5 @@
 /**
- * Set Alarm
- * Creates push notifications for alarm
- * @id {string}
- * @date {string} ISO format
- * @oid {string} needed for iOS. oid = Original ID.
- * @snooze {int} minutes
- * @message {string} Alarm message
+ * Edit Alarm
  */
 
 // libs
@@ -16,6 +10,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { alarmStorage } from "./constants.js";
 import { getAlarmById } from "./getAlarms";
 import { setAlarmWithoutEdit } from "./setAlarm";
+import { cancelAlarmWithoutEdit } from './cancelAlarm';
 
 export const editAlarm = async (alarm) => {
   if (!alarm) {
@@ -32,21 +27,27 @@ export const editAlarm = async (alarm) => {
     const storage = await AsyncStorage.getItem(alarmStorage);
 
     if (storage && storage.length > 0) {
+      let updatedAlarm;
       const parsedStorage = JSON.parse(storage);
       const updatedStorage = parsedStorage.map((storageAlarm) => {
         if (storageAlarm.id === alarm.id) {
-          return Object.assign({}, alarmFromStorage, alarm);
+          updatedAlarm = Object.assign({}, alarmFromStorage, alarm);
+          return updatedAlarm;
         } else {
           return storageAlarm;
         }
       });
       await AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
-      if (alarm.active) {
+      if (alarm.active === true) {
         await setAlarmWithoutEdit(alarm.id);
       }
 
-      return updatedStorage;
+      if (alarm.active === false) {
+        await cancelAlarmWithoutEdit(alarm.id);
+      }
+
+      return updatedAlarm;
     } else {
       throw new Error("No alarms are set");
     }

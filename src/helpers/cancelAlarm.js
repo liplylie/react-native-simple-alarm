@@ -1,9 +1,7 @@
 /**
  * Cancel Alarm
- * @id {string} int for android
- * @oid {string} needed for iOS
- * @notification {object}
- * @userInfo {object}
+ * Cancels push notfication for alarm
+ * @id {string || number} 
  */
 import PropTypes from "prop-types";
 import PushNotification from "react-native-push-notification";
@@ -48,7 +46,7 @@ export const cancelAlarmById = async (id) => {
      throw new Error("There is not an alarm with this id");
    }
 
-  await editAlarm(Object.assign({}, alarm, { active: false }));
+  const updatedAlarm = await editAlarm(Object.assign({}, alarm, { active: false }));
 
   if (Platform.OS === "ios") {
     // this logic is needed because of how ios alarms are set
@@ -62,6 +60,8 @@ export const cancelAlarmById = async (id) => {
   } else {
     PushNotification.cancelLocalNotifications({ id: JSON.stringify(id) });
   }
+
+  return updatedAlarm
 };
 
 cancelAlarmById.propTypes = {
@@ -69,7 +69,7 @@ cancelAlarmById.propTypes = {
 };
 
 // doesn't call edit alarm
-export const cancelAlarmByIdFromDelete = async (id) => {
+export const cancelAlarmWithoutEdit = async (id) => {
   if (!id) {
     throw new Error("Please enter an alarm id");
   }
@@ -88,6 +88,6 @@ export const cancelAlarmByIdFromDelete = async (id) => {
   }
 };
 
-cancelAlarmByIdFromDelete.propTypes = {
+cancelAlarmWithoutEdit.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

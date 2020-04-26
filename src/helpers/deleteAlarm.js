@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 // local
 import { alarmStorage } from "./constants.js";
-import { cancelAlarmByIdFromDelete } from "./cancelAlarm";
+import { cancelAlarmWithoutEdit } from "./cancelAlarm";
 
 export const deleteAlarm = async (alarm) => {
   if (!alarm) {
@@ -17,7 +17,7 @@ export const deleteAlarm = async (alarm) => {
     const updatedStorage = parsedStorage.filter(
       (storageAlarm) => storageAlarm.oid !== alarm.oid
     );
-    cancelAlarmByIdFromDelete(alarm.oid);
+    cancelAlarmWithoutEdit(alarm.oid);
     AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
     return updatedStorage;
@@ -43,7 +43,7 @@ export const deleteAlarmById = async (id) => {
     );
 
     // deactivates alarm notificaton if activated
-    await cancelAlarmByIdFromDelete(id);
+    await cancelAlarmWithoutEdit(id);
     AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
     return updatedStorage;
