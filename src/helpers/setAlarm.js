@@ -128,6 +128,7 @@ export const setAlarmWithoutEdit = async (id) => {
   }
 
   const alarm = await getAlarmById(id);
+
   if (!alarm) {
     throw new Error("There is not an alarm with this id");
   }
@@ -160,6 +161,7 @@ export const setAlarmWithoutEdit = async (id) => {
       userInfo: {
         ...alarm.userInfo,
         oid: id,
+        id,
         snooze,
       },
     });

@@ -15,7 +15,7 @@ export default class App extends Component {
   componentDidMount() {
     PushNotification.configure({
       onNotification: function (notification) {
-        const {message, data, userInfo} = notification;
+        const {message, data} = notification;
 
         if (notification) {
           Alert.alert(message, '', [

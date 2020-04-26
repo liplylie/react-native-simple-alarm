@@ -109,7 +109,7 @@ class AddAlarm extends Component {
         date: newDate,
         snooze,
         message,
-        active: true
+        active: true,
       });
 
       Actions.Home();
