@@ -5,6 +5,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import PushNotification from 'react-native-push-notification';
 import {cancelAlarmById} from 'react-native-simple-alarm';
+import {Actions} from 'react-native-router-flux';
 
 // Components
 import Home from './src/Home/Home';
@@ -18,7 +19,13 @@ export default class App extends Component {
 
         if (notification) {
           Alert.alert(message, '', [
-            {text: 'OK', onPress: async () => await cancelAlarmById(data.oid)},
+            {
+              text: 'OK',
+              onPress: async () => {
+                await cancelAlarmById(data.id);
+                Actions.Home()
+              },
+            },
           ]);
         }
         notification.finish(PushNotificationIOS.FetchResult.NoData);

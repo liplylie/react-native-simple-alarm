@@ -79,29 +79,40 @@ export const setAlarmById = async (id) => {
 
     PushNotification.localNotificationSchedule(androidAlarm);
   } else {
+    const iosAlarm = Object.assign({}, alarm, {
+      date: new Date(date),
+      userInfo: {
+        ...alarm.userInfo,
+        oid: id,
+        snooze,
+      },
+    });
+
+    PushNotification.localNotificationSchedule(iosAlarm);
+    // todo: add multiple alarms for ios
     // ios push notifications only last for 5 seconds.
     // This sets multiple push notifications for ios.
     // repeat time doesn't work with ios
-    for (let j = 0; j < 10; j++) {
-      let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
+    // for (let j = 0; j < 10; j++) {
+    //   let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
 
-      for (let i = 0; i < 4; i++) {
-        let tempDate = moment(initialAlarm).add(i * 8, "seconds");
+    //   for (let i = 0; i < 4; i++) {
+    //     let tempDate = moment(initialAlarm).add(i * 8, "seconds");
 
-        // allows other properties from react-native push notification to be included in the alarm
-        const iosAlarm = Object.assign({}, alarm, {
-          date: new Date(tempDate),
-          userInfo: {
-            ...alarm.userInfo,
-            id: id + String(j) + String(i),
-            oid: id,
-            snooze,
-          },
-        });
+    //     // allows other properties from react-native push notification to be included in the alarm
+    //     const iosAlarm = Object.assign({}, alarm, {
+    //       date: new Date(tempDate),
+    //       userInfo: {
+    //         ...alarm.userInfo,
+    //         id: id + String(j) + String(i),
+    //         oid: id,
+    //         snooze,
+    //       },
+    //     });
 
-        PushNotification.localNotificationSchedule(iosAlarm);
-      }
-    }
+    //     PushNotification.localNotificationSchedule(iosAlarm);
+    //   }
+    // }
   }
 };
 
@@ -121,70 +132,61 @@ export const setAlarmWithoutEdit = async (id) => {
     throw new Error("There is not an alarm with this id");
   }
 
-  const {
-    date,
-    snooze,
-    message = "Alarm",
-    userInfo = {},
-    soundName = "",
-    multipleAlarm = false,
-  } = alarm;
+  const { snooze, date } = alarm;
 
   if (Platform.OS === "android") {
     // repeats every x minutes
     const repeatTime = 1000 * 60 * Number(snooze);
 
-    PushNotification.localNotificationSchedule({
-      soundName,
-      message,
+    // allows other properties from react-native push notification to be included in the alarm
+    const androidAlarm = Object.assign({}, alarm, {
       date: new Date(date),
       id: JSON.stringify(id),
       notificationId: JSON.stringify(id),
       repeatType: "time",
       repeatTime: repeatTime,
       userInfo: {
-        ...userInfo,
+        ...alarm.userInfo,
         id: JSON.stringify(id),
         oid: JSON.stringify(id),
         snooze,
       },
     });
+
+    PushNotification.localNotificationSchedule(androidAlarm);
   } else {
+    const iosAlarm = Object.assign({}, alarm, {
+      date: new Date(date),
+      userInfo: {
+        ...alarm.userInfo,
+        oid: id,
+        snooze,
+      },
+    });
+
+    PushNotification.localNotificationSchedule(iosAlarm);
+    // todo: add multiple alarms for ios
     // ios push notifications only last for 5 seconds.
     // This sets multiple push notifications for ios.
-    if (multipleAlarm) {
-      for (let j = 0; j < 10; j++) {
-        let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
+    // for (let j = 0; j < 10; j++) {
+    //   let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
 
-        for (let i = 0; i < 4; i++) {
-          let tempDate = moment(initialAlarm).add(i * 8, "seconds");
+    //   for (let i = 0; i < 4; i++) {
+    //     let tempDate = moment(initialAlarm).add(i * 8, "seconds");
 
-          PushNotification.localNotificationSchedule({
-            message: message,
-            soundName,
-            date: new Date(tempDate),
-            userInfo: {
-              ...userInfo,
-              id: id + String(j) + String(i),
-              oid: id,
-              snooze,
-            },
-          });
-        }
-      }
-    } else {
-      PushNotification.localNotificationSchedule({
-        message: message,
-        soundName,
-        date: new Date(date),
-        userInfo: {
-          ...userInfo,
-          id: id,
-          oid: id,
-          snooze,
-        },
-      });
-    }
+    //     PushNotification.localNotificationSchedule({
+    //       message: message,
+    //       soundName,
+    //       date: new Date(tempDate),
+    //       userInfo: {
+    //         ...userInfo,
+    //         id: id + String(j) + String(i),
+    //         oid: id,
+    //         snooze,
+    //       },
+    //     });
+    //   }
+    // }
   }
 };
 

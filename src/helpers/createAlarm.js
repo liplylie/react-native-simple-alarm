@@ -14,7 +14,8 @@ export const createAlarm = async ({
   message = "Alarm",
   snooze = 0,
   userInfo = {},
-  soundName = ""
+  soundName = "",
+  ...props
 }) => {
   if (!date) {
     throw new Error("Please enter a date");
@@ -30,7 +31,8 @@ export const createAlarm = async ({
     message,
     snooze,
     userInfo,
-    soundName
+    soundName,
+    ...props
   });
   const storage = await AsyncStorage.getItem(alarmStorage);
 

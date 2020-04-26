@@ -82,7 +82,7 @@ class AddAlarm extends Component {
         active: true,
         date: newDate,
         message,
-        snooze,
+        snooze
       });
 
       Actions.Home();
@@ -99,6 +99,7 @@ class AddAlarm extends Component {
       let id = edit.id;
       let newDate = date;
 
+      // bug with react-native-push-notification where if the date is before the current time, it will get executed
       if (moment(date).isBefore(moment().startOf('minute'))) {
         newDate = moment(date).add(1, 'days').startOf('minute').format();
       }
