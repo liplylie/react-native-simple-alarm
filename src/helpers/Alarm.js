@@ -9,7 +9,10 @@
  */
 
 // libs
+import { Platform } from "react-native";
 import PropTypes from "prop-types";
+
+const emptyProperty = Platform.select({ ios: "", android: null });
 
 export class Alarm {
   constructor({
@@ -21,17 +24,17 @@ export class Alarm {
     // every property below is from react-native push notification
     // https://github.com/zo0r/react-native-push-notification
     userInfo = {},
-    ticker = null,
+    ticker = emptyProperty,
     autoCancel = true,
-    largeIcon = null,
-    smallIcon = null,
-    bigText = null,
-    subText = null,
-    color = 'white',
+    largeIcon = emptyProperty,
+    smallIcon = emptyProperty,
+    bigText = emptyProperty,
+    subText = emptyProperty,
+    color = "white",
     vibrate = true,
     vibration = 1000,
-    tag = null,
-    group = null,
+    tag = emptyProperty,
+    group = emptyProperty,
     ongoing = false,
     priority = "high",
     visibility = "private",
@@ -39,11 +42,11 @@ export class Alarm {
     allowWhileIdle = false,
     ignoreInForeground = false,
     alertAction = "view",
-    title = null,
+    title = emptyProperty,
     playSound = true,
-    soundName = null,
-    number = null,
-    actions = 'Ok'
+    soundName = emptyProperty,
+    number = emptyProperty,
+    actions = "Ok",
     // repeat type is removed on purpose
     // changing repeat type would effect snooze logic
   }) {
@@ -58,25 +61,25 @@ export class Alarm {
     this.autoCancel = autoCancel;
     this.largeIcon = largeIcon;
     this.smallIcon = smallIcon;
-    this.bigText = bigText,
-    this.subText = subText,
-    this.color = color
-    this.vibrate = vibrate,
-    this.vibration = vibration,
-    this.tag = tag
-    this.group = group
-    this.ongoing = ongoing,
-    this.priority = priority,
-    this.visibility = visibility,
-    this.importance = importance,
-    this.allowWhileIdle = allowWhileIdle,
-    this.ignoreInForeground = ignoreInForeground,
-    this.alertAction = alertAction,
-    this.title = title,
-    this.playSound = playSound,
-    this.soundName = soundName,
-    this.number = number,
-    this.actions = actions
+    this.bigText = bigText;
+    this.subText = subText;
+    this.color = color;
+    this.vibrate = vibrate;
+    this.vibration = vibration;
+    this.tag = tag;
+    this.group = group;
+    this.ongoing = ongoing;
+    this.priority = priority;
+    this.visibility = visibility;
+    this.importance = importance;
+    this.allowWhileIdle = allowWhileIdle;
+    this.ignoreInForeground = ignoreInForeground;
+    this.alertAction = alertAction;
+    this.title = title;
+    this.playSound = playSound;
+    this.soundName = soundName;
+    this.number = number;
+    this.actions = actions;
   }
 }
 
@@ -86,7 +89,7 @@ Alarm.propTypes = {
   date: PropTypes.string.isRequired,
   message: PropTypes.string,
   snooze: PropTypes.number,
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
 };
 
 export default Alarm;

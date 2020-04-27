@@ -13,21 +13,34 @@ import AddAlarms from './src/Home/AddAlarms';
 
 export default class App extends Component {
   async componentDidMount() {
-    await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    ]);
+    if (Platform.OS === 'android') {
+      await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ]);
+    }
 
     PushNotification.configure({
-      onNotification: function (notification) {
-        const {message, data} = notification;
-        if (notification) {
+      onNotification: async function (notification) {
+        const {message, data, userInteraction} = notification;
+
+        if (userInteraction) {
+          await cancelAlarmById(
+            Platform.select({ios: data && data.id, android: notification.id}),
+          );
+          Actions.Home();
+        }
+
+        if (notification && !userInteraction) {
           Alert.alert(message, '', [
             {
               text: 'OK',
               onPress: async () => {
                 await cancelAlarmById(
-                  Platform.select({ios: data && data.id, android: notification.id}),
+                  Platform.select({
+                    ios: data && data.id,
+                    android: notification.id,
+                  }),
                 );
                 Actions.Home();
               },
