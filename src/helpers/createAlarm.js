@@ -14,7 +14,6 @@ export const createAlarm = async ({
   message = "Alarm",
   snooze = 0,
   userInfo = {},
-  soundName = "",
   ...props
 }) => {
   if (!date) {
@@ -31,7 +30,6 @@ export const createAlarm = async ({
     message,
     snooze,
     userInfo,
-    soundName,
     ...props
   });
   const storage = await AsyncStorage.getItem(alarmStorage);
@@ -56,8 +54,7 @@ createAlarm.propTypes = {
   date: PropTypes.string.isRequired,
   message: PropTypes.string,
   snooze: PropTypes.number,
-  userInfo: PropTypes.object,
-  soundName: PropTypes.string
+  userInfo: PropTypes.object
 };
 
 export default createAlarm;

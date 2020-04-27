@@ -21,17 +21,17 @@ export class Alarm {
     // every property below is from react-native push notification
     // https://github.com/zo0r/react-native-push-notification
     userInfo = {},
-    ticker = "",
+    ticker = null,
     autoCancel = true,
-    largeIcon = "",
-    smallIcon = "",
-    bigText = "",
-    subText = "",
-    color = "",
+    largeIcon = null,
+    smallIcon = null,
+    bigText = null,
+    subText = null,
+    color = 'white',
     vibrate = true,
     vibration = 1000,
-    tag = "",
-    group = "",
+    tag = null,
+    group = null,
     ongoing = false,
     priority = "high",
     visibility = "private",
@@ -39,11 +39,11 @@ export class Alarm {
     allowWhileIdle = false,
     ignoreInForeground = false,
     alertAction = "view",
-    title = "",
+    title = null,
     playSound = true,
-    soundName = "default",
-    number = "",
-    actions = '["Yes", "No"]'
+    soundName = null,
+    number = null,
+    actions = 'Ok'
     // repeat type is removed on purpose
     // changing repeat type would effect snooze logic
   }) {

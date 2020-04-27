@@ -1,6 +1,6 @@
 // libs
 import React, {Component} from 'react';
-import {Platform, AppState, Alert} from 'react-native';
+import {PermissionsAndroid, AppState, Alert, Platform} from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import PushNotification from 'react-native-push-notification';
@@ -12,18 +12,24 @@ import Home from './src/Home/Home';
 import AddAlarms from './src/Home/AddAlarms';
 
 export default class App extends Component {
-  componentDidMount() {
+  async componentDidMount() {
+    await PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    ]);
+
     PushNotification.configure({
       onNotification: function (notification) {
         const {message, data} = notification;
-
         if (notification) {
           Alert.alert(message, '', [
             {
               text: 'OK',
               onPress: async () => {
-                await cancelAlarmById(data.id);
-                Actions.Home()
+                await cancelAlarmById(
+                  Platform.select({ios: data && data.id, android: notification.id}),
+                );
+                Actions.Home();
               },
             },
           ]);
@@ -36,7 +42,7 @@ export default class App extends Component {
         sound: true,
       },
 
-      popInitialNotification: Platform.OS === 'android',
+      popInitialNotification: true,
       requestPermissions: true,
     });
 

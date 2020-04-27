@@ -23,7 +23,7 @@ export const getAlarmById = async (id) => {
   const storage = await AsyncStorage.getItem(alarmStorage);
   if (storage && storage.length > 0) {
     const parsedStorage = JSON.parse(storage);
-    const alarm = parsedStorage.find((storageAlarm) => storageAlarm.id === id);
+    const alarm = parsedStorage.find((storageAlarm) => storageAlarm.id == id);
     if (alarm) {
       return alarm;
     } else {

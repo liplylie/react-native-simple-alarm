@@ -66,7 +66,7 @@ export const setAlarmById = async (id) => {
     const androidAlarm = Object.assign({}, alarm, {
       date: new Date(date),
       id: JSON.stringify(id),
-      notificationId: JSON.stringify(id),
+      notificationId: id,
       repeatType: "time",
       repeatTime: repeatTime,
       userInfo: {
@@ -143,7 +143,7 @@ export const setAlarmWithoutEdit = async (id) => {
     const androidAlarm = Object.assign({}, alarm, {
       date: new Date(date),
       id: JSON.stringify(id),
-      notificationId: JSON.stringify(id),
+      notificationId: id,
       repeatType: "time",
       repeatTime: repeatTime,
       userInfo: {

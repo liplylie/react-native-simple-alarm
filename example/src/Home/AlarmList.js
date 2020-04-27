@@ -109,7 +109,9 @@ class AlarmList extends Component {
     this.setState({
       alarms: updatedAlarms,
     });
-    rowRef.manuallySwipeRow(0);
+    if (rowRef) {
+      rowRef.manuallySwipeRow(0);
+    }
   };
 
   render() {
@@ -122,6 +124,7 @@ class AlarmList extends Component {
         }}
         data={this.state.alarms}
         renderItem={this.renderAlarms}
+        keyExtractor={(item, index) => `list-item-${index}`}
         renderHiddenItem={(data, rowMap) => (
           <View
             style={{
