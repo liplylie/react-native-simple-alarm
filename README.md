@@ -1,7 +1,7 @@
 # react-native-simple-alarm
 Alarm clock functionality for react native ios and android built using [react-native-push-notification](https://github.com/zo0r/react-native-push-notification) and [react-native-community/async-storage](https://github.com/react-native-community/async-storage).
 
-[![react-native-simple-alarm](https://img.youtube.com/vi/o-J9FWbwjAnMo/0.jpg)](https://www.youtube.com/watch?v=J9FWbwjAnMo "react-native-simple-alarm")
+[![ReactNativeChatImageAudio](https://img.youtube.com/vi/J9FWbwjAnMo/0.jpg)](https://www.youtube.com/watch?v=o-J9FWbwjAnMo"ReactNativeChatImageAudio")
 
 ## Installing (React Native >= 0.60.0)
 
@@ -126,17 +126,17 @@ editAlarm = async () => {
 }
 ```
 
-### setAlarmById
+### activateAlarmById
 Given alarm id, sets alarm active prop to true, and creates scheduled push notification for alarm based on the date. Use this instead of `editAlarm` if you simply want to set the alarm active prop to true. If trying to get an id that does not exist, it will return null and throw an error. 
 
 ```jsx
-import { setAlarmById } from 'react-native-simple-alarm';
+import { activateAlarmById } from 'react-native-simple-alarm';
 
-setAlarm = async () => {
+activateAlarm = async () => {
   let id = '07699912-87d9-11ea-bc55-0242ac130003';
   
   try {
-    await setAlarmById(id);
+    await activateAlarmById(id);
   } catch (e) {}
 }
 ```
