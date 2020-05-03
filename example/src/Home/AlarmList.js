@@ -15,7 +15,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import moment from 'moment';
 import {
   cancelAlarmById,
-  setAlarmById,
+  activateAlarmById,
   deleteAlarmById,
   getAlarms,
 } from 'react-native-simple-alarm';
@@ -54,7 +54,7 @@ class AlarmList extends Component {
     if (value === 0) {
       cancelAlarmById(alarm.id);
     } else if (value === 1) {
-      setAlarmById(alarm.id);
+      activateAlarmById(alarm.id);
     }
   };
 

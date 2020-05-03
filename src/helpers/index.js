@@ -1,7 +1,7 @@
-export { cancelAlarmById } from "./cancelAlarm.js";
+export * from "./cancelAlarm.js";
 export * from "./createAlarm.js";
 export * from "./deleteAlarm.js";
-export { editAlarm } from "./editAlarm.js";
+export * from "./editAlarm.js";
 export * from "./getAlarms.js";
-export { setAlarmById } from "./setAlarm.js";
+export * from "./activateAlarm.js";
 export * from "./Alarm.js";

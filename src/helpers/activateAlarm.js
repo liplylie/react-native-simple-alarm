@@ -15,10 +15,10 @@ import moment from "moment";
 import PropTypes from "prop-types";
 
 // local
-import { editAlarmWithoutSetAlarm } from "./editAlarm";
+import { editAlarmWithoutActivateAlarm } from "./libraryOnlyHelpers/editAlarmWithoutActivateAlarm";
 import { getAlarmById } from "./getAlarms";
 
-export const setAlarmById = async (id) => {
+export const activateAlarmById = async (id) => {
   if (!id) {
     throw new Error("Please enter an id");
   }
@@ -28,7 +28,7 @@ export const setAlarmById = async (id) => {
     throw new Error("There is not an alarm with this id");
   }
 
-  await editAlarmWithoutSetAlarm(
+  await editAlarmWithoutActivateAlarm(
     Object.assign({}, alarm, {
       active: true,
     })
@@ -41,7 +41,7 @@ export const setAlarmById = async (id) => {
   if (moment().isAfter(date)) {
     const addDayToDate = moment(date).add(1, "days").format();
 
-    await editAlarmWithoutSetAlarm(
+    await editAlarmWithoutActivateAlarm(
       Object.assign({}, alarm, {
         date: addDayToDate,
         active: true,
@@ -50,7 +50,7 @@ export const setAlarmById = async (id) => {
 
     date = addDayToDate;
   } else {
-    await editAlarmWithoutSetAlarm(
+    await editAlarmWithoutActivateAlarm(
       Object.assign({}, alarm, {
         active: true,
       })
@@ -116,84 +116,8 @@ export const setAlarmById = async (id) => {
   }
 };
 
-setAlarmById.propTypes = {
+activateAlarmById.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-// doesn't call edit alarm again
-// should only be used within the library
-export const setAlarmWithoutEdit = async (id) => {
-  if (!id) {
-    throw new Error("Please enter an id");
-  }
-
-  const alarm = await getAlarmById(id);
-
-  if (!alarm) {
-    throw new Error("There is not an alarm with this id");
-  }
-
-  const { snooze, date } = alarm;
-
-  if (Platform.OS === "android") {
-    // repeats every x minutes
-    const repeatTime = 1000 * 60 * Number(snooze);
-
-    // allows other properties from react-native push notification to be included in the alarm
-    const androidAlarm = Object.assign({}, alarm, {
-      date: new Date(date),
-      id: JSON.stringify(id),
-      notificationId: id,
-      repeatType: "time",
-      repeatTime: repeatTime,
-      userInfo: {
-        ...alarm.userInfo,
-        id: JSON.stringify(id),
-        oid: JSON.stringify(id),
-        snooze,
-      },
-    });
-
-    PushNotification.localNotificationSchedule(androidAlarm);
-  } else {
-    const iosAlarm = Object.assign({}, alarm, {
-      date: new Date(date),
-      userInfo: {
-        ...alarm.userInfo,
-        oid: id,
-        id,
-        snooze,
-      },
-    });
-
-    PushNotification.localNotificationSchedule(iosAlarm);
-    // todo: add multiple alarms for ios
-    // ios push notifications only last for 5 seconds.
-    // This sets multiple push notifications for ios.
-    // for (let j = 0; j < 10; j++) {
-    //   let initialAlarm = moment(date).add(Number(snooze) * j, "minutes");
-
-    //   for (let i = 0; i < 4; i++) {
-    //     let tempDate = moment(initialAlarm).add(i * 8, "seconds");
-
-    //     PushNotification.localNotificationSchedule({
-    //       message: message,
-    //       soundName,
-    //       date: new Date(tempDate),
-    //       userInfo: {
-    //         ...userInfo,
-    //         id: id + String(j) + String(i),
-    //         oid: id,
-    //         snooze,
-    //       },
-    //     });
-    //   }
-    // }
-  }
-};
-
-setAlarmById.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-};
-
-export default setAlarmById;
+export default activateAlarmById;

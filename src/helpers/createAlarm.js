@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 // local
 import Alarm from "./Alarm.js";
 import uuid from "./uuid.js";
-import { setAlarmWithoutEdit } from "./setAlarm";
+import { activateAlarmWithoutEdit } from "./libraryOnlyHelpers/activateAlarmWithoutEdit";
 import { alarmStorage } from "./constants.js";
 
 export const createAlarm = async ({
@@ -42,7 +42,7 @@ export const createAlarm = async ({
   }
 
   if (active) {
-    await setAlarmWithoutEdit(alarm.id);
+    await activateAlarmWithoutEdit(alarm.id);
   }
 
   return alarm;
