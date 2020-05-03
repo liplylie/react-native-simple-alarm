@@ -1,7 +1,7 @@
 # react-native-simple-alarm
 Alarm clock functionality for react native ios and android built using [react-native-push-notification](https://github.com/zo0r/react-native-push-notification) and [react-native-community/async-storage](https://github.com/react-native-community/async-storage).
 
-[![ReactNativeChatImageAudio](https://img.youtube.com/vi/J9FWbwjAnMo/0.jpg)](https://www.youtube.com/watch?v=o-J9FWbwjAnMo"ReactNativeChatImageAudio")
+[![ReactNativeChatImageAudio](https://img.youtube.com/vi/J9FWbwjAnMo/0.jpg)](https://www.youtube.com/watch?v=J9FWbwjAnMo"ReactNativeChatImageAudio")
 
 ## Installing (React Native >= 0.60.0)
 
