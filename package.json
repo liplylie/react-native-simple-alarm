@@ -9,11 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-simple-alarm.git",
-    "baseUrl": "https://github.com/github_account/react-native-simple-alarm"
+    "url": "git+https://github.com/liplylie/react-native-simple-alarm.git",
+    "baseUrl": "https://github.com/liplylie/react-native-simple-alarm"
   },
+  "homepage": "https://github.com/liplylie/react-native-simple-alarm#readme",
   "keywords": [
-    "react-native"
+    "react-native",
+    "alarm",
+    "clock",
+    "ios",
+    "android"
   ],
   "author": {
     "name": "Jordan Daniels"
