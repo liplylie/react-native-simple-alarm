@@ -45,6 +45,10 @@ if android:
 $ yarn android
 ```
 
+You may come across these issues while running the example: 
+https://github.com/oblador/react-native-vector-icons/issues/1074
+https://github.com/oblador/react-native-vector-icons/issues/328
+
 ### createAlarm 
 
 | Prop           | Description                                                                                                                                                                                                                                                                     | Default                                                                                                             |
