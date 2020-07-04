@@ -1,7 +1,7 @@
 {
   "name": "react-native-simple-alarm",
   "title": "React Native Simple Alarm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Alarm clock functionality for react native ios and android using react-native-push-notification and react-native-community/async-storage",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,9 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.9.0",
+    "@react-native-community/eslint-config": "^1.0.0",
+    "@react-native-community/push-notification-ios": "^1.1.1",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react-native-push-notification": "^3.1.9",
@@ -39,9 +42,6 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
-    "@react-native-community/async-storage": "^1.9.0",
-    "@react-native-community/eslint-config": "^1.0.0",
-    "@react-native-community/push-notification-ios": "^1.1.1",
     "babel-jest": "^25.3.0",
     "eslint": "^6.8.0",
     "jest": "^25.3.0",
