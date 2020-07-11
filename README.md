@@ -164,12 +164,12 @@ cancelAlarmById = async () => {
 Given alarm id, deletes alarm and cancels the scheduled push notification. Returns array of alarms after deletion. If trying to get an id that does not exist, it will return null and throw an error. 
 
 ```jsx
-import { deleteAlarm } from 'react-native-simple-alarm';
+import { deleteAlarmById } from 'react-native-simple-alarm';
 deleteAlarmById = async () => {
   let id = '07699912-87d9-11ea-bc55-0242ac130003';
   
   try {
-    await deleteAlarm(id);
+    await deleteAlarmById(id);
   } catch (e) {}
 }
 ```
