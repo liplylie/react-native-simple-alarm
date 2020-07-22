@@ -12,9 +12,11 @@
 import { Platform } from "react-native";
 import PushNotification from "react-native-push-notification";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 // local
 import { getAlarmById } from "../getAlarms";
+import { editAlarmWithoutActivateAlarm } from "../libraryOnlyHelpers/editAlarmWithoutActivateAlarm";
 
 // doesn't call edit alarm again
 // should only be used within the library
@@ -28,8 +30,24 @@ export const activateAlarmWithoutEdit = async (id) => {
   if (!alarm) {
     throw new Error("There is not an alarm with this id");
   }
+  let date = alarm.date;
 
-  const { snooze, date } = alarm;
+  // bug with react-native-push-notification where alarm fires if it is before the current time.
+  // https://github.com/zo0r/react-native-push-notification/issues/1336
+  if (moment().isAfter(date)) {
+    const addDayToDate = moment(date).add(1, "days").format();
+
+    await editAlarmWithoutActivateAlarm(
+      Object.assign({}, alarm, {
+        date: addDayToDate,
+        active: true,
+      })
+    );
+
+    date = addDayToDate;
+  }
+
+  const { snooze } = alarm;
 
   if (Platform.OS === "android") {
     // repeats every x minutes

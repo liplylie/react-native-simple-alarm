@@ -24,6 +24,7 @@ export const activateAlarmById = async (id) => {
   }
 
   const alarm = await getAlarmById(id);
+  
   if (!alarm) {
     throw new Error("There is not an alarm with this id");
   }

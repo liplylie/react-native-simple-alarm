@@ -60,10 +60,11 @@ export const deleteAllAlarms = async () => {
   const storage = await AsyncStorage.getItem(alarmStorage);
 
   if (storage && storage.length > 0) {
-    storage.forEach(({ oid }) => {
-      cancelAlarmById(oid);
+    const parsedStorage = JSON.parse(storage);
+    parsedStorage.forEach(({ oid }) => {
+      cancelAlarmWithoutEdit(oid);
     });
-    await AsyncStorage.clear();
+    await AsyncStorage.setItem(alarmStorage, JSON.stringify([]));
     return [];
   } else {
     throw new Error("No alarms are set");
