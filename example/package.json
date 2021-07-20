@@ -16,7 +16,7 @@
     "@react-native-community/push-notification-ios": "^1.1.1",
     "lodash": "4.17.15",
     "react": "16.11.0",
-    "react-native": "0.62.2",
+    "react-native": "0.62.3",
     "react-native-gesture-handler": "1.6.1",
     "react-native-modal-datetime-picker": "8.5.4",
     "react-native-modal-selector": "2.0.0",

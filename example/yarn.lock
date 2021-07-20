@@ -5101,8 +5101,15 @@ react-native-screens@2.4.0:
     debounce "^1.2.0"
 
 "react-native-simple-alarm@link:..":
-  version "0.0.0"
-  uid ""
+  version "1.0.4"
+  dependencies:
+    "@react-native-community/async-storage" "^1.9.0"
+    "@react-native-community/eslint-config" "^1.0.0"
+    "@react-native-community/push-notification-ios" "^1.1.1"
+    moment "^2.24.0"
+    prop-types "^15.7.2"
+    react-native-push-notification "^3.1.9"
+    react-test-renderer "16.11.0"
 
 react-native-simple-radio-button@2.7.4:
   version "2.7.4"
@@ -5124,9 +5131,9 @@ react-native-vector-icons@6.0.1:
     prop-types "^15.6.2"
     yargs "^8.0.2"
 
-react-native@0.62.2:
-  version "0.62.2"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"
+react-native@0.62.3:
+  version "0.62.3"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.3.tgz#9a2e96af3dedd0723c8657831eec4ed3c30f3299"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^4.5.1"
