@@ -5,11 +5,13 @@ Alarm clock functionality for react native ios and android built using [react-na
 
 ## Installing (React Native >= 0.60.0)
 
-`npm install --save react-native-simple-alarm`
+Under the hood this library is using react-native-push-notification, @react-native-community/async-storage, and @react-native-community/push-notification-ios. These libraries will need to be installed as well.
+
+`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
 
 or
 
-`yarn add react-native-simple-alarm`
+`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
 
 For `iOS` using `cocoapods`, run:
 
@@ -19,11 +21,11 @@ $ cd ios/ && pod install
 
 ## Installing (React Native <= 0.59.x)
 
-`npm install --save react-native-simple-alarm`
+`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
 
 or
 
-`yarn add react-native-simple-alarm`
+`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
 
 Use `react-native link` to add the library to your project:
 

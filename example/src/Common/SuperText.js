@@ -3,7 +3,6 @@
 import React, {useMemo} from 'react';
 import {Text, StyleSheet} from 'react-native';
 
-import _ from 'lodash';
 import {Styles} from '../styles';
 
 const SuperText = React.memo((props) => {

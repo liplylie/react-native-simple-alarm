@@ -36,11 +36,7 @@ export default class NavBar extends Component {
       icon = (
         <Image
           source={require('../../assets/images/menuIcon.png')}
-          style={{
-            marginRight: Convert(8),
-            height: Convert(16),
-            resizeMode: 'contain',
-          }}
+          style={styles.menu}
         />
       );
     }
@@ -123,15 +119,7 @@ export default class NavBar extends Component {
         accessibilityLabel={
           rightButtonTitle || rightButtonIcon || 'right nav button'
         }>
-        <SuperText
-          style={[
-            {
-              fontSize: Convert(16),
-              letterSpacing: -0.4,
-              top: Convert(1),
-            },
-            rightButtonTextStyle,
-          ]}>
+        <SuperText style={[styles.rightButtonText, rightButtonTextStyle]}>
           {rightButtonTitle}
         </SuperText>
         {icon}
@@ -141,16 +129,7 @@ export default class NavBar extends Component {
 
   renderTitle = () => {
     const {title} = this.props;
-    return (
-      <SuperText
-        style={{
-          fontSize: Convert(21.3),
-          letterSpacing: Convert(-0.5),
-          textAlign: 'center',
-        }}>
-        {title}
-      </SuperText>
-    );
+    return <SuperText style={styles.title}>{title}</SuperText>;
   };
 
   render() {
@@ -171,17 +150,18 @@ export default class NavBar extends Component {
         }
       : {};
 
-    if (this)
+    if (this) {
       return (
         <View
           style={[
-            setToTopStyle,
-            styles.navBar,
+            // eslint-disable-next-line react-native/no-inline-styles
             {
               borderBottomColor: showDivider
                 ? Colors.textBlack10
                 : 'transparent',
             },
+            setToTopStyle,
+            styles.navBar,
           ]}>
           <View style={styles.container}>
             {(leftButtonTitle || leftButtonIcon) && this.renderLeftButton()}
@@ -192,6 +172,7 @@ export default class NavBar extends Component {
           </View>
         </View>
       );
+    }
   }
 }
 
@@ -251,5 +232,20 @@ const styles = StyleSheet.create({
     letterSpacing: Convert(5.5),
     textAlign: 'center',
     color: 'black',
+  },
+  menu: {
+    marginRight: Convert(8),
+    height: Convert(16),
+    resizeMode: 'contain',
+  },
+  rightButtonText: {
+    fontSize: Convert(16),
+    letterSpacing: -0.4,
+    top: Convert(1),
+  },
+  title: {
+    fontSize: Convert(21.3),
+    letterSpacing: Convert(-0.5),
+    textAlign: 'center',
   },
 });
