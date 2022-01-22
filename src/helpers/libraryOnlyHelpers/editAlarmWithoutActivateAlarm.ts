@@ -1,17 +1,17 @@
 /**
- * Edit Alarm
+ * Edit Alarm Without Activation
  */
 
 // libs
-import PropTypes from "prop-types";
 import AsyncStorage from "@react-native-community/async-storage";
 
 // local
-import { alarmStorage } from "../constants.js";
+import { alarmStorage } from "../constants";
 import { getAlarmById } from "../getAlarms";
+import { Alarm as AlarmType } from "../../../Types";
 
 // doesn't call activateAlarm again
-export const editAlarmWithoutActivateAlarm = async (alarm) => {
+export const editAlarmWithoutActivateAlarm = async (alarm: AlarmType): Promise<AlarmType[]> => {
   if (!alarm) {
     throw new Error("There is not an alarm");
   }
@@ -27,7 +27,7 @@ export const editAlarmWithoutActivateAlarm = async (alarm) => {
     const storage = await AsyncStorage.getItem(alarmStorage);
 
     if (storage && storage.length > 0) {
-      const parsedStorage = JSON.parse(storage);
+      const parsedStorage = JSON.parse(storage) as AlarmType[];
       const updatedStorage = parsedStorage.map((storageAlarm) => {
         if (storageAlarm.id === alarm.id) {
           return Object.assign({}, alarmFromStorage, alarm);
@@ -35,7 +35,7 @@ export const editAlarmWithoutActivateAlarm = async (alarm) => {
           return storageAlarm;
         }
       });
-      AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
+      await AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
       return updatedStorage;
     } else {
@@ -44,8 +44,4 @@ export const editAlarmWithoutActivateAlarm = async (alarm) => {
   } else {
     throw new Error("No alarms are set");
   }
-};
-
-editAlarmWithoutActivateAlarm.propTypes = {
-  alarm: PropTypes.object.isRequired,
 };

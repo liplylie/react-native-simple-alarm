@@ -10,17 +10,18 @@
 
 // libs
 import { Platform } from "react-native";
+//@ts-ignore
 import PushNotification from "react-native-push-notification";
-import PropTypes from "prop-types";
 import moment from "moment";
 
 // local
 import { getAlarmById } from "../getAlarms";
-import { editAlarmWithoutActivateAlarm } from "../libraryOnlyHelpers/editAlarmWithoutActivateAlarm";
+import { editAlarmWithoutActivateAlarm } from "./editAlarmWithoutActivateAlarm";
+import { Alarm as AlarmType } from "../../../Types";
 
 // doesn't call edit alarm again
 // should only be used within the library
-export const activateAlarmWithoutEdit = async (id) => {
+export const activateAlarmWithoutEdit = async (id: string | number): Promise<void>=> {
   if (!id) {
     throw new Error("Please enter an id");
   }
@@ -54,7 +55,7 @@ export const activateAlarmWithoutEdit = async (id) => {
     const repeatTime = 1000 * 60 * Number(snooze);
 
     // allows other properties from react-native push notification to be included in the alarm
-    const androidAlarm = Object.assign({}, alarm, {
+    const androidAlarm: AlarmType = Object.assign({}, alarm, {
       date: new Date(date),
       id: JSON.stringify(id),
       notificationId: id,
@@ -70,8 +71,11 @@ export const activateAlarmWithoutEdit = async (id) => {
 
     PushNotification.localNotificationSchedule(androidAlarm);
   } else {
+    const repeatTime =  moment.duration(snooze, 'm').asMilliseconds()
     const iosAlarm = Object.assign({}, alarm, {
       date: new Date(date),
+      repeatType: "minute",
+      repeatTime: repeatTime,
       userInfo: {
         ...alarm.userInfo,
         oid: id,
@@ -104,8 +108,4 @@ export const activateAlarmWithoutEdit = async (id) => {
     //   }
     // }
   }
-};
-
-activateAlarmWithoutEdit.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

@@ -10,11 +10,42 @@
 
 // libs
 import { Platform } from "react-native";
-import PropTypes from "prop-types";
+
+import { Alarm as AlarmType } from "../../Types";
 
 const emptyProperty = Platform.select({ ios: "", android: null });
 
 export class Alarm {
+  id: string | number;
+  active: boolean;
+  date: string;
+  message: string;
+  snooze: number;
+  userInfo: {};
+  oid?: string | number;
+  ticker: any;
+  autoCancel: boolean;
+  largeIcon: any;
+  smallIcon: any;
+  bigText: any;
+  subText: any;
+  color: string;
+  vibrate: boolean;
+  vibration: number;
+  tag: any;
+  group: any;
+  ongoing: boolean;
+  priority: string;
+  visibility: string;
+  importance: string;
+  allowWhileIdle: boolean;
+  ignoreInForeground: boolean;
+  alertAction: string;
+  title: any;
+  playSound: boolean;
+  soundName: any;
+  number: any;
+  actions: string[];
   constructor({
     id = "",
     active = false,
@@ -46,10 +77,10 @@ export class Alarm {
     playSound = true,
     soundName = emptyProperty,
     number = emptyProperty,
-    actions = "Ok",
+    actions,
     // repeat type is removed on purpose
     // changing repeat type would effect snooze logic
-  }) {
+  }: AlarmType) {
     this.id = id;
     this.active = active;
     this.date = date;
@@ -82,14 +113,5 @@ export class Alarm {
     this.actions = actions;
   }
 }
-
-Alarm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  active: PropTypes.boolean,
-  date: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  snooze: PropTypes.number,
-  userInfo: PropTypes.object,
-};
 
 export default Alarm;
