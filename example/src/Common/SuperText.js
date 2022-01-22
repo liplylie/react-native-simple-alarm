@@ -1,50 +1,43 @@
-"use strict";
+'use strict';
 
-import React from "react";
-import { Text, StyleSheet } from "react-native";
+import React, {useMemo} from 'react';
+import {Text, StyleSheet} from 'react-native';
 
-import _ from "lodash";
-import { Styles } from "../styles";
+import {Styles} from '../styles';
 
-const SuperText = props => {
-  const {
-    style,
-    type,
-    color,
-    fontSize,
-    numberOfLines,
-    textAlign
-  } = props;
+const SuperText = React.memo((props) => {
+  const {style, type, color, fontSize, numberOfLines, textAlign} = props;
 
-  let family = Styles.mainFamily;
-  if (type === "regular") {
-    family = Styles.mainFamily;
-  } else if (type === "medium") {
-    family = Styles.mediumFamily;
-  } else if (type === "thin" || type === "light") {
-    family = Styles.thinFamily;
-  } else if (type === "bold") {
-    family = Styles.boldFamily;
-  } else if (type === "italic") {
-    family = Styles.italicFamily;
-  }
+  const family = useMemo(() => {
+    if (type === 'regular') {
+      return Styles.mainFamily;
+    } else if (type === 'medium') {
+      return Styles.mediumFamily;
+    } else if (type === 'thin' || type === 'light') {
+      return Styles.thinFamily;
+    } else if (type === 'bold') {
+      return Styles.boldFamily;
+    } else if (type === 'italic') {
+      return Styles.italicFamily;
+    }
+    return Styles.mainFamily;
+  }, [type]);
 
   return (
     <Text
-      style={[family, styles.main, { color, fontSize, textAlign }, style]}
+      style={[family, styles.main, {color, fontSize, textAlign}, style]}
       numberOfLines={numberOfLines}
-      allowFontScaling={false}
-    >
+      allowFontScaling={false}>
       {props.children}
     </Text>
   );
-};
+});
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: "transparent"
-  }
+    backgroundColor: 'transparent',
+  },
 });
 
-export { SuperText };
+export {SuperText};
 export default SuperText;

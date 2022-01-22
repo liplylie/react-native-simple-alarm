@@ -12,13 +12,12 @@
 import { Platform } from "react-native";
 import PushNotification from "react-native-push-notification";
 import moment from "moment";
-import PropTypes from "prop-types";
 
 // local
 import { editAlarmWithoutActivateAlarm } from "./libraryOnlyHelpers/editAlarmWithoutActivateAlarm";
 import { getAlarmById } from "./getAlarms";
 
-export const activateAlarmById = async (id) => {
+export const activateAlarmById = async (id: string | number): Promise<void> => {
   if (!id) {
     throw new Error("Please enter an id");
   }
@@ -80,8 +79,12 @@ export const activateAlarmById = async (id) => {
 
     PushNotification.localNotificationSchedule(androidAlarm);
   } else {
+    const repeatTime =  moment.duration(snooze, 'm').asMilliseconds()
+
     const iosAlarm = Object.assign({}, alarm, {
       date: new Date(date),
+      repeatType: "minute",
+      repeatTime: repeatTime,
       userInfo: {
         ...alarm.userInfo,
         oid: id,
@@ -115,10 +118,6 @@ export const activateAlarmById = async (id) => {
     //   }
     // }
   }
-};
-
-activateAlarmById.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default activateAlarmById;

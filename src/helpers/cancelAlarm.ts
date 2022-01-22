@@ -3,7 +3,8 @@
  * Cancels push notfication for alarm
  * @id {string || number} 
  */
-import PropTypes from "prop-types";
+
+//@ts-ignore
 import PushNotification from "react-native-push-notification";
 import { Platform } from "react-native";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
@@ -11,8 +12,9 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 // local
 import { getAlarmById } from "./getAlarms";
 import { editAlarm } from "./editAlarm";
+import { Alarm as AlarmType } from "../Types";
 
-export const cancelAlarm = (alarm) => {
+export const cancelAlarm = (alarm: AlarmType): void => {
   if (!alarm) {
     throw new Error("Please enter an alarm");
   }
@@ -20,23 +22,19 @@ export const cancelAlarm = (alarm) => {
 
   if (Platform.OS === "ios") {
     // this logic is needed because of how ios alarms are set
-    PushNotificationIOS.getScheduledLocalNotifications((notification) => {
+    PushNotificationIOS.getPendingNotificationRequests((notification) => {
       notification.forEach(({ userInfo }) => {
         if (userInfo.id === id || userInfo.oid === id) {
-          PushNotification.cancelLocalNotifications({ id: userInfo.id });
+          PushNotification.cancelLocalNotification({ id: userInfo.id });
         }
       });
     });
   } else {
-    PushNotification.cancelLocalNotifications({ id: JSON.stringify(id) });
+    PushNotification.cancelLocalNotification({ id: JSON.stringify(id) });
   }
 };
 
-cancelAlarm.propTypes = {
-  alarm: PropTypes.object.isRequired,
-};
-
-export const cancelAlarmById = async (id) => {
+export const cancelAlarmById = async (id: string | number): Promise<AlarmType> => {
   if (!id) {
     throw new Error("Please enter an alarm id");
   }
@@ -50,20 +48,16 @@ export const cancelAlarmById = async (id) => {
 
   if (Platform.OS === "ios") {
     // this logic is needed because of how ios alarms are set
-    PushNotificationIOS.getScheduledLocalNotifications((notification) => {
+    PushNotificationIOS.getPendingNotificationRequests((notification) => {
       notification.forEach(({ userInfo }) => {
         if (userInfo.id === id || userInfo.oid === id || userInfo.oid === alarm.oid) {
-          PushNotification.cancelLocalNotifications({ id: userInfo.id });
+          PushNotification.cancelLocalNotification({ id: userInfo.id });
         }
       });
     });
   } else {
-    PushNotification.cancelLocalNotifications({ id: JSON.stringify(id) });
+    PushNotification.cancelLocalNotification({ id: JSON.stringify(id) });
   }
 
   return updatedAlarm
-};
-
-cancelAlarmById.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

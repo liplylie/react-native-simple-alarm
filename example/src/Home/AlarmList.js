@@ -32,6 +32,7 @@ class AlarmList extends Component {
 
   async componentDidMount() {
     const alarms = await getAlarms();
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       alarms,
     });
@@ -69,7 +70,7 @@ class AlarmList extends Component {
     }
     return (
       <View style={styles.alarmContainer}>
-        <View style={{display: 'flex', flexDirection: 'column'}}>
+        <View style={styles.radioContainer}>
           <View style={styles.alarm}>
             <TouchableOpacity onPress={() => Actions.EditAlarm({edit: item})}>
               <Text style={{fontSize: Convert(40), paddingLeft: Convert(10)}}>
@@ -89,12 +90,7 @@ class AlarmList extends Component {
             />
           </View>
 
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={styles.messageView}>
             <Text>{item.message}</Text>
           </View>
         </View>
@@ -126,14 +122,7 @@ class AlarmList extends Component {
         renderItem={this.renderAlarms}
         keyExtractor={(item, index) => `list-item-${index}`}
         renderHiddenItem={(data, rowMap) => (
-          <View
-            style={{
-              alignSelf: 'flex-end',
-              marginRight: Convert(10),
-              marginTop: Convert(5),
-              padding: Convert(11),
-              backgroundColor: 'red',
-            }}>
+          <View style={styles.deleteView}>
             <TouchableOpacity
               onPress={() =>
                 this.confirmDeletePress(data, rowMap[data.item.key])
@@ -177,6 +166,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  radioContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  messageView: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteView: {
+    alignSelf: 'flex-end',
+    marginRight: Convert(10),
+    marginTop: Convert(5),
+    padding: Convert(11),
+    backgroundColor: 'red',
   },
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, StyleSheet} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 // Components
@@ -12,18 +12,25 @@ const Home = () => {
   };
 
   return (
-    <View style={{display: 'flex', flex: 1}}>
+    <View style={styles.container}>
       <NavBar
         title="Alarms"
         rightButtonIcon="plus"
         onRightButtonPress={handleAddAlarm}
       />
 
-      <SafeAreaView style={{display: 'flex', flex: 1}}>
+      <SafeAreaView style={styles.container}>
         <AlarmList />
       </SafeAreaView>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+  },
+});
 
 export default Home;

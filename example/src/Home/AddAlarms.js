@@ -8,6 +8,7 @@ import {
   Button,
   TouchableHighlight,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -43,7 +44,7 @@ class AddAlarm extends Component {
   componentDidMount() {
     PushNotification.checkPermissions((permissions) => {
       if (!permissions.alert) {
-        alert('Please enable push notifications for the alarm to work');
+        Alert.alert('Please enable push notifications for the alarm to work');
       }
     });
   }
@@ -71,7 +72,7 @@ class AddAlarm extends Component {
     let {time, date, message, snooze} = this.state;
 
     if (!time) {
-      alert('Please enter a time for the alarm');
+      Alert.alert('Please enter a time for the alarm');
     } else {
       let newDate = date;
       if (moment(date).isBefore(moment().startOf('minute'))) {
@@ -82,7 +83,7 @@ class AddAlarm extends Component {
         active: true,
         date: newDate,
         message,
-        snooze
+        snooze,
       });
 
       Actions.Home();
@@ -94,7 +95,7 @@ class AddAlarm extends Component {
     let {time, date, message, snooze} = this.state;
 
     if (!time) {
-      alert('Please enter a time for the alarm');
+      Alert.alert('Please enter a time for the alarm');
     } else {
       let id = edit.id;
       let newDate = date;
@@ -135,20 +136,14 @@ class AddAlarm extends Component {
           accessible={true}
           scrollViewAccessibilityLabel={'Scrollable options'}
           cancelButtonAccessibilityLabel={'Cancel Button'}
-          style={{flex: 1}}
+          style={styles.snoozeModal}
           onChange={({label}) => {
             this.setState({snooze: label});
           }}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={{fontSize: Convert(20)}}>Snooze</Text>
+          <View style={styles.snoozeView}>
+            <Text style={styles.snoozeFont}>Snooze</Text>
 
-            <Text style={{fontSize: Convert(20)}}>
+            <Text style={styles.snoozeFont}>
               {snooze} minute{snooze > 1 ? 's' : null}
             </Text>
           </View>
@@ -162,34 +157,20 @@ class AddAlarm extends Component {
     let {edit} = this.props;
 
     return (
-      <View style={{display: 'flex', flex: 1}}>
+      <View style={styles.screen}>
         <NavBar
           title={edit ? 'Edit Alarm' : 'Add Alarm'}
           leftButtonIcon="left"
           onLeftButtonPress={() => Actions.Home()}
         />
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            flexGrow: 1,
-            backgroundColor: 'white',
-          }}>
-          <View
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+        <View style={styles.container}>
+          <View style={styles.editView}>
             <View>
               <Text style={{fontSize: Convert(80)}}>{time}</Text>
             </View>
 
             <View>
-              <TouchableHighlight style={[styles.editButton]}>
+              <TouchableHighlight style={styles.editButton}>
                 <Button
                   onPress={this._showDateTimePicker}
                   title="Edit"
@@ -207,48 +188,22 @@ class AddAlarm extends Component {
             </View>
           </View>
 
-          <View
-            style={{
-              flexGrow: 1.5,
-              flexDirection: 'column',
-              alignSelf: 'center',
-            }}>
+          <View style={styles.descriptionView}>
             <TextInput
-              style={{
-                height: Convert(40),
-                width: Convert(300),
-                borderColor: 'gray',
-                borderWidth: 1,
-                borderRadius: Convert(10),
-                backgroundColor: 'white',
-                textAlign: 'center',
-                alignSelf: 'center',
-              }}
+              style={styles.descriptionText}
               onChangeText={(message) => this.setState({message})}
               value={this.state.message}
               placeholder="Description"
               maxLength={30}
             />
 
-            <View
-              style={{
-                display: 'flex',
-                flex: 0.4,
-                flexDirection: 'column',
-                width: Convert(300),
-              }}>
-              <View>{this.snoozeModal()}</View>
+            <View style={styles.snoozeModalContainer}>
+              {this.snoozeModal()}
             </View>
           </View>
 
-          <View style={{flexGrow: 1, justifyContent: 'flex-end'}}>
-            <TouchableHighlight
-              style={{
-                height: iphoneX ? Convert(80) : Convert(50),
-                width: width,
-                backgroundColor: Platform.OS === 'ios' ? 'dodgerblue' : null,
-                margin: 0,
-              }}>
+          <View style={styles.buttonContainer}>
+            <TouchableHighlight style={styles.highlight}>
               <Button
                 onPress={edit ? this._editAlarm : this._addAlarm}
                 title="SAVE"
@@ -281,6 +236,67 @@ const styles = StyleSheet.create({
     marginTop: Convert(20),
     marginBottom: Convert(30),
     backgroundColor: Platform.OS === 'ios' ? 'dodgerblue' : null,
+  },
+  snoozeModal: {
+    flex: 1,
+  },
+  snoozeModalContainer: {
+    display: 'flex',
+    flex: 0.4,
+    flexDirection: 'column',
+    width: Convert(300),
+  },
+  snoozeView: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  snoozeFont: {
+    fontSize: Convert(20),
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexGrow: 1,
+    backgroundColor: 'white',
+  },
+  editView: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  descriptionView: {
+    flexGrow: 1.5,
+    flexDirection: 'column',
+    alignSelf: 'center',
+  },
+  descriptionText: {
+    height: Convert(40),
+    width: Convert(300),
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: Convert(10),
+    backgroundColor: 'white',
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  screen: {
+    display: 'flex',
+    flex: 1,
+  },
+  buttonContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
+  highlight: {
+    height: iphoneX ? Convert(80) : Convert(50),
+    width: width,
+    backgroundColor: Platform.OS === 'ios' ? 'dodgerblue' : null,
+    margin: 0,
   },
 });
 

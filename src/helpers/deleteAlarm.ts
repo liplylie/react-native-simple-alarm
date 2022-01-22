@@ -1,12 +1,12 @@
 // libs
-import PropTypes from "prop-types";
 import AsyncStorage from "@react-native-community/async-storage";
 
 // local
-import { alarmStorage } from "./constants.js";
+import { alarmStorage } from "./constants";
 import { cancelAlarmWithoutEdit } from "./libraryOnlyHelpers/cancelAlarmWithoutEdit";
+import { Alarm as AlarmType } from "../Types";
 
-export const deleteAlarm = async (alarm) => {
+export const deleteAlarm = async (alarm: AlarmType): Promise<AlarmType[]> => {
   if (!alarm) {
     throw new Error("Please enter an alarm");
   }
@@ -18,7 +18,7 @@ export const deleteAlarm = async (alarm) => {
       (storageAlarm) => storageAlarm.oid !== alarm.oid
     );
     cancelAlarmWithoutEdit(alarm.oid);
-    AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
+    await AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
     return updatedStorage;
   } else {
@@ -26,25 +26,21 @@ export const deleteAlarm = async (alarm) => {
   }
 };
 
-deleteAlarm.propTypes = {
-  alarm: PropTypes.object.isRequired,
-};
-
-export const deleteAlarmById = async (id) => {
-  if (!id) {
+export const deleteAlarmById = async (id: string | number): Promise<AlarmType[]> => {
+  if (!id) { 
     throw new Error("Please enter an alarm id");
   }
   const storage = await AsyncStorage.getItem(alarmStorage);
 
   if (storage && storage.length > 0) {
-    const parsedStorage = JSON.parse(storage);
+    const parsedStorage = JSON.parse(storage) as AlarmType[];
     const updatedStorage = parsedStorage.filter(
       (storageAlarm) => storageAlarm.id !== id
     );
 
     // deactivates alarm notificaton if activated
     await cancelAlarmWithoutEdit(id);
-    AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
+    await AsyncStorage.setItem(alarmStorage, JSON.stringify(updatedStorage));
 
     return updatedStorage;
   } else {
@@ -52,15 +48,11 @@ export const deleteAlarmById = async (id) => {
   }
 };
 
-deleteAlarmById.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-export const deleteAllAlarms = async () => {
+export const deleteAllAlarms = async (): Promise<[]> => {
   const storage = await AsyncStorage.getItem(alarmStorage);
 
   if (storage && storage.length > 0) {
-    const parsedStorage = JSON.parse(storage);
+    const parsedStorage = JSON.parse(storage) as AlarmType[];
     parsedStorage.forEach(({ oid }) => {
       cancelAlarmWithoutEdit(oid);
     });

@@ -1,12 +1,12 @@
 // libs
-import PropTypes from "prop-types";
 import AsyncStorage from "@react-native-community/async-storage";
 
 // local
-import Alarm from "./Alarm.js";
-import uuid from "./uuid.js";
+import Alarm from "./Alarm";
+import uuid from "./uuid";
 import { activateAlarmWithoutEdit } from "./libraryOnlyHelpers/activateAlarmWithoutEdit";
-import { alarmStorage } from "./constants.js";
+import { alarmStorage } from "./constants";
+import { Alarm as AlarmType } from "../Types";
 
 export const createAlarm = async ({
   active = false,
@@ -15,7 +15,7 @@ export const createAlarm = async ({
   snooze = 0,
   userInfo = {},
   ...props
-}) => {
+}: AlarmType) => {
   if (!date) {
     throw new Error("Please enter a date");
   }
@@ -46,15 +46,6 @@ export const createAlarm = async ({
   }
 
   return alarm;
-};
-
-createAlarm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  active: PropTypes.boolean,
-  date: PropTypes.string.isRequired,
-  message: PropTypes.string,
-  snooze: PropTypes.number,
-  userInfo: PropTypes.object
 };
 
 export default createAlarm;
