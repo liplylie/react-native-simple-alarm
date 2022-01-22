@@ -5059,8 +5059,13 @@ react-native-screens@2.4.0:
     debounce "^1.2.0"
 
 "react-native-simple-alarm@link:..":
-  version "0.0.0"
-  uid ""
+  version "2.0.0"
+  dependencies:
+    "@react-native-community/async-storage" "1.12.1"
+    "@react-native-community/push-notification-ios" "1.10.1"
+    moment "2.29.1"
+    prop-types "15.8.1"
+    react-native-push-notification "8.1.1"
 
 react-native-simple-radio-button@2.7.4:
   version "2.7.4"
@@ -6439,8 +6444,9 @@ xtend@~4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
 
 y18n@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.2.tgz#85c901bd6470ce71fc4bb723ad209b70f7f28696"
+  integrity sha512-uGZHXkHnhF0XeeAPgnKfPv1bgKAYyVvmNL1xlKsPYZPaIHxGti2hHqvOCQv71XMsLxu1QjergkqogUnms5D3YQ==
 
 y18n@^4.0.0:
   version "4.0.0"
