@@ -17,7 +17,7 @@
     "lodash": "4.17.15",
     "moment": "2.24.0",
     "react": "16.11.0",
-    "react-native": "0.62.2",
+    "react-native": "0.63.4",
     "react-native-gesture-handler": "1.6.1",
     "react-native-modal-datetime-picker": "13.0.1",
     "react-native-modal-selector": "2.0.0",
