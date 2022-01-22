@@ -5059,8 +5059,13 @@ react-native-screens@2.4.0:
     debounce "^1.2.0"
 
 "react-native-simple-alarm@link:..":
-  version "0.0.0"
-  uid ""
+  version "2.0.0"
+  dependencies:
+    "@react-native-community/async-storage" "1.12.1"
+    "@react-native-community/push-notification-ios" "1.10.1"
+    moment "2.29.1"
+    prop-types "15.8.1"
+    react-native-push-notification "8.1.1"
 
 react-native-simple-radio-button@2.7.4:
   version "2.7.4"
@@ -6142,8 +6147,9 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 ua-parser-js@^0.7.18:
-  version "0.7.21"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
+  version "0.7.31"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
+  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
 
 uglify-es@^3.1.9:
   version "3.3.9"
