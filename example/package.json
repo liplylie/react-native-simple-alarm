@@ -10,17 +10,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.9.0",
-    "@react-native-community/datetimepicker": "2.3.2",
+    "@react-native-community/async-storage": "1.9.0",
+    "@react-native-community/datetimepicker": "5.1.0",
     "@react-native-community/eslint-config": "^1.0.0",
     "@react-native-community/push-notification-ios": "^1.1.1",
     "lodash": "4.17.15",
+    "moment": "2.24.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "1.6.1",
-    "react-native-modal-datetime-picker": "8.5.4",
+    "react-native-modal-datetime-picker": "13.0.1",
     "react-native-modal-selector": "2.0.0",
     "react-native-picker-select": "7.0.0",
+    "react-native-push-notification": "3.1.9",
     "react-native-reanimated": "1.8.0",
     "react-native-router-flux": "4.2.0",
     "react-native-screens": "2.4.0",
@@ -28,8 +30,6 @@
     "react-native-simple-radio-button": "2.7.4",
     "react-native-swipe-list-view": "2.5.0",
     "react-native-vector-icons": "6.0.1",
-    "moment": "2.24.0",
-    "react-native-push-notification": "3.1.9",
     "react-test-renderer": "16.11.0"
   },
   "devDependencies": {

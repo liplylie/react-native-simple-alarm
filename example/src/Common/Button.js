@@ -1,9 +1,7 @@
-"use strict";
+import React from 'react';
+import {View, TouchableOpacity} from 'react-native';
 
-import React from "react";
-import { View, TouchableOpacity } from "react-native";
-
-const Button = props => {
+const Button = React.memo((props) => {
   const {
     accessible,
     accessibilityLabel,
@@ -12,7 +10,7 @@ const Button = props => {
     style,
     onLayout,
     noAnimation,
-    hitSlop
+    hitSlop,
   } = props;
 
   if (noAnimation) {
@@ -24,8 +22,7 @@ const Button = props => {
         onResponderGrant={onPress}
         style={style}
         onLayout={onLayout}
-        hitSlop={hitSlop}
-      >
+        hitSlop={hitSlop}>
         {props.children}
       </View>
     );
@@ -39,12 +36,11 @@ const Button = props => {
       onPress={onPress}
       style={[style]}
       onLayout={onLayout}
-      hitSlop={hitSlop}
-    >
+      hitSlop={hitSlop}>
       {props.children}
     </TouchableOpacity>
   );
-};
+});
 
-export { Button };
+export {Button};
 export default Button;
