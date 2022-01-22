@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 // local
 import { alarmStorage } from "./constants";
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 export const getAlarms = async (): Promise<AlarmType[] | []> => {
   const storage = await AsyncStorage.getItem(alarmStorage);
@@ -15,7 +15,7 @@ export const getAlarms = async (): Promise<AlarmType[] | []> => {
   }
 };
 
-export const getAlarmById = async (id: string | number): Promise<AlarmType> | null=> {
+export const getAlarmById = async (id: string | number)=> {
   if (!id) {
     throw new Error("Please enter an id");
   }

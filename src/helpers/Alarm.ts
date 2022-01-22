@@ -11,7 +11,7 @@
 // libs
 import { Platform } from "react-native";
 
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 const emptyProperty = Platform.select({ ios: "", android: null });
 

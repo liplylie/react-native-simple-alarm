@@ -17,7 +17,7 @@ import moment from "moment";
 // local
 import { getAlarmById } from "../getAlarms";
 import { editAlarmWithoutActivateAlarm } from "./editAlarmWithoutActivateAlarm";
-import { Alarm as AlarmType } from "../../../Types";
+import { Alarm as AlarmType } from "../../Types";
 
 // doesn't call edit alarm again
 // should only be used within the library

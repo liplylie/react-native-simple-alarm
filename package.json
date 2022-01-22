@@ -3,7 +3,11 @@
   "title": "React Native Simple Alarm",
   "version": "2.0.0",
   "description": "Alarm clock functionality for react native ios and android using react-native-push-notification and react-native-community/async-storage",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

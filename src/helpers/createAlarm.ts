@@ -6,7 +6,7 @@ import Alarm from "./Alarm";
 import uuid from "./uuid";
 import { activateAlarmWithoutEdit } from "./libraryOnlyHelpers/activateAlarmWithoutEdit";
 import { alarmStorage } from "./constants";
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 export const createAlarm = async ({
   active = false,

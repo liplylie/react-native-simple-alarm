@@ -12,7 +12,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 // local
 import { getAlarmById } from "./getAlarms";
 import { editAlarm } from "./editAlarm";
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 export const cancelAlarm = (alarm: AlarmType): void => {
   if (!alarm) {

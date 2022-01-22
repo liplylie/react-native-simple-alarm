@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 // local
 import { alarmStorage } from "../constants";
 import { getAlarmById } from "../getAlarms";
-import { Alarm as AlarmType } from "../../../Types";
+import { Alarm as AlarmType } from "../../Types";
 
 // doesn't call activateAlarm again
 export const editAlarmWithoutActivateAlarm = async (alarm: AlarmType): Promise<AlarmType[]> => {

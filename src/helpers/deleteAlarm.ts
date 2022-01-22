@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 // local
 import { alarmStorage } from "./constants";
 import { cancelAlarmWithoutEdit } from "./libraryOnlyHelpers/cancelAlarmWithoutEdit";
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 export const deleteAlarm = async (alarm: AlarmType): Promise<AlarmType[]> => {
   if (!alarm) {

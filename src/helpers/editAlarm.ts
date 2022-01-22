@@ -10,7 +10,7 @@ import { alarmStorage } from "./constants";
 import { getAlarmById } from "./getAlarms";
 import { activateAlarmWithoutEdit } from "./libraryOnlyHelpers/activateAlarmWithoutEdit";
 import { cancelAlarmWithoutEdit } from "./libraryOnlyHelpers/cancelAlarmWithoutEdit";
-import { Alarm as AlarmType } from "../../Types";
+import { Alarm as AlarmType } from "../Types";
 
 export const editAlarm = async (alarm: AlarmType): Promise<AlarmType> => {
   if (!alarm) {
