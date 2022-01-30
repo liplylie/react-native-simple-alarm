@@ -21,11 +21,11 @@ $ cd ios/ && pod install
 
 ## Installing (React Native <= 0.59.x)
 
-`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
+`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification`
 
 or
 
-`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
+`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification`
 
 Use `react-native link` to add the library to your project:
 
