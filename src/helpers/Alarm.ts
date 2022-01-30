@@ -13,7 +13,7 @@ import { Platform } from "react-native";
 
 import { Alarm as AlarmType } from "../Types";
 
-const emptyProperty = Platform.select({ ios: "", android: null });
+const emptyProperty = Platform.select({ ios: "", android: undefined });
 
 export class Alarm {
   id: string | number;
@@ -21,66 +21,73 @@ export class Alarm {
   date: string;
   message: string;
   snooze: number;
-  userInfo: {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  userInfo?: Record<string, any>;
   oid?: string | number;
-  ticker: any;
+  ticker?: string | undefined;
   autoCancel: boolean;
-  largeIcon: any;
-  smallIcon: any;
-  bigText: any;
-  subText: any;
+  largeIcon?: string | undefined;
+  smallIcon?: string | undefined;
+  bigText?: string | undefined;
+  subText?: string | undefined;
   color: string;
   vibrate: boolean;
   vibration: number;
-  tag: any;
-  group: any;
+  tag?: string | undefined;
+  group?: string | undefined;
   ongoing: boolean;
-  priority: string;
-  visibility: string;
-  importance: string;
+  priority?: "max" | "high" | "low" | "min" | "default" | undefined;
+  visibility?: "private" | "public" | "secret" | undefined;
+  importance?:
+    | "default"
+    | "max"
+    | "high"
+    | "low"
+    | "min"
+    | "none"
+    | "unspecified"
+    | undefined;
   allowWhileIdle: boolean;
   ignoreInForeground: boolean;
-  alertAction: string;
-  title: any;
+  title?: string | undefined;
   playSound: boolean;
-  soundName: any;
-  number: any;
-  actions: string[];
-  constructor({
-    id = "",
-    active = false,
-    date = "",
-    message = "Alarm",
-    snooze = 1,
-    // every property below is from react-native push notification
-    // https://github.com/zo0r/react-native-push-notification
-    userInfo = {},
-    ticker = emptyProperty,
-    autoCancel = true,
-    largeIcon = emptyProperty,
-    smallIcon = emptyProperty,
-    bigText = emptyProperty,
-    subText = emptyProperty,
-    color = "white",
-    vibrate = true,
-    vibration = 1000,
-    tag = emptyProperty,
-    group = emptyProperty,
-    ongoing = false,
-    priority = "high",
-    visibility = "private",
-    importance = "high",
-    allowWhileIdle = false,
-    ignoreInForeground = false,
-    alertAction = "view",
-    title = emptyProperty,
-    playSound = true,
-    soundName = emptyProperty,
-    number = emptyProperty,
-    actions,
-    // repeat type is removed on purpose
-    // changing repeat type would effect snooze logic
-  }: AlarmType) {
+  soundName?: string | undefined;
+  number?: string | number | undefined;
+  actions?: string[] | undefined;
+  constructor(
+    {
+      id = "",
+      active = false,
+      date = "",
+      message = "Alarm",
+      snooze = 1,
+      // every property below is from react-native push notification
+      // https://github.com/zo0r/react-native-push-notification
+      userInfo = {},
+      ticker = emptyProperty,
+      autoCancel = true,
+      largeIcon = emptyProperty,
+      smallIcon = emptyProperty,
+      bigText = emptyProperty,
+      subText = emptyProperty,
+      color = "white",
+      vibrate = true,
+      vibration = 1000,
+      tag = emptyProperty,
+      group = emptyProperty,
+      ongoing = false,
+      priority = "high",
+      visibility = "private",
+      importance = "high",
+      allowWhileIdle = false,
+      ignoreInForeground = false,
+      title = emptyProperty,
+      playSound = true,
+      soundName = emptyProperty,
+      number = emptyProperty,
+      actions,
+    }: AlarmType // repeat type is removed on purpose // changing repeat type would effect snooze logic
+  ) {
     this.id = id;
     this.active = active;
     this.date = date;
@@ -105,7 +112,6 @@ export class Alarm {
     this.importance = importance;
     this.allowWhileIdle = allowWhileIdle;
     this.ignoreInForeground = ignoreInForeground;
-    this.alertAction = alertAction;
     this.title = title;
     this.playSound = playSound;
     this.soundName = soundName;

@@ -10,8 +10,9 @@
 
 // libs
 import { Platform } from "react-native";
-import PushNotification from "react-native-push-notification";
-import moment from "moment";
+import PushNotification, {
+  PushNotificationScheduleObject,
+} from "react-native-push-notification";
 
 // local
 import { editAlarmWithoutActivateAlarm } from "./libraryOnlyHelpers/editAlarmWithoutActivateAlarm";
@@ -23,7 +24,7 @@ export const activateAlarmById = async (id: string | number): Promise<void> => {
   }
 
   const alarm = await getAlarmById(id);
-  
+
   if (!alarm) {
     throw new Error("There is not an alarm with this id");
   }
@@ -35,11 +36,11 @@ export const activateAlarmById = async (id: string | number): Promise<void> => {
   );
 
   let date = alarm.date;
-
+  const now = Date.now();
   // bug with react-native-push-notification where alarm fires if it is before the current time.
   // https://github.com/zo0r/react-native-push-notification/issues/1336
-  if (moment().isAfter(date)) {
-    const addDayToDate = moment(date).add(1, "days").format();
+  if (now > new Date(date).getTime()) {
+    const addDayToDate = new Date(now + 3600 * 1000 * 24).toISOString();
 
     await editAlarmWithoutActivateAlarm(
       Object.assign({}, alarm, {
@@ -63,25 +64,30 @@ export const activateAlarmById = async (id: string | number): Promise<void> => {
     const repeatTime = 1000 * 60 * Number(snooze);
 
     // allows other properties from react-native push notification to be included in the alarm
-    const androidAlarm = Object.assign({}, alarm, {
-      date: new Date(date),
-      id: JSON.stringify(id),
-      notificationId: id,
-      repeatType: "time",
-      repeatTime: repeatTime,
-      userInfo: {
-        ...alarm.userInfo,
+    const androidAlarm: PushNotificationScheduleObject = Object.assign(
+      {},
+      alarm,
+      {
+        date: new Date(date),
         id: JSON.stringify(id),
-        oid: JSON.stringify(id),
-        snooze,
-      },
-    });
+        notificationId: id,
+        repeatType: "time",
+        repeatTime: repeatTime,
+        userInfo: {
+          ...alarm.userInfo,
+          id: JSON.stringify(id),
+          oid: JSON.stringify(id),
+          snooze,
+        },
+      }
+    );
 
     PushNotification.localNotificationSchedule(androidAlarm);
   } else {
-    const repeatTime =  moment.duration(snooze, 'm').asMilliseconds()
+    // repeatTime needs to be in milliseconds
+    const repeatTime = snooze * 1000;
 
-    const iosAlarm = Object.assign({}, alarm, {
+    const iosAlarm: PushNotificationScheduleObject = Object.assign({}, alarm, {
       date: new Date(date),
       repeatType: "minute",
       repeatTime: repeatTime,

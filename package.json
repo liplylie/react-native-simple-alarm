@@ -37,8 +37,6 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.12.1",
     "@react-native-community/push-notification-ios": "1.10.1",
-    "moment": "2.29.1",
-    "prop-types": "15.8.1",
     "react-native-push-notification": "8.1.1"
   },
   "devDependencies": {
@@ -46,6 +44,8 @@
     "@babel/runtime": "^7.9.2",
     "@react-native-community/eslint-config": "^3.0.1",
     "@types/node": "^17.0.10",
+    "@types/react-native": "^0.66.15",
+    "@types/react-native-push-notification": "^7.3.3",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "babel-jest": "^25.3.0",
