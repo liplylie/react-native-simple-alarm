@@ -7,11 +7,11 @@ Alarm clock functionality for react native ios and android built using [react-na
 
 Under the hood this library is using react-native-push-notification, @react-native-community/async-storage, and @react-native-community/push-notification-ios. These libraries will need to be installed as well.
 
-`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
+`npm install --save react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification`
 
 or
 
-`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification moment prop-types`
+`yarn add react-native-simple-alarm @react-native-community/async-storage @react-native-community/push-notification-ios react-native-push-notification`
 
 For `iOS` using `cocoapods`, run:
 
@@ -75,7 +75,7 @@ createAlarm = async () => {
   try {
     await createAlarm({
         active: false,
-        date: moment().format(),
+        date: new Date().toISOString();,
         message: 'message',
         snooze: 1,
       });
@@ -187,3 +187,7 @@ deleteAllAlarms = async () => {
   } catch (e) {}
 }
 ```
+
+Note to self:
+- follow https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c for deployment
+- add ./dist/index.d.ts file
