@@ -10,5 +10,6 @@
     "declaration": true,
     "strict": true,  
     "noImplicitAny": false,
+    "skipLibCheck": true,
   }
 }

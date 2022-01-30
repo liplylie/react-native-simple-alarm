@@ -187,3 +187,7 @@ deleteAllAlarms = async () => {
   } catch (e) {}
 }
 ```
+
+Note to self:
+- follow https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c for deployment
+- add ./dist/index.d.ts file
