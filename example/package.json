@@ -23,7 +23,7 @@
     "react-native-modal-selector": "2.0.0",
     "react-native-picker-select": "7.0.0",
     "react-native-push-notification": "3.1.9",
-    "react-native-reanimated": "1.8.0",
+    "react-native-reanimated": "2.10.0",
     "react-native-router-flux": "4.2.0",
     "react-native-screens": "2.4.0",
     "react-native-simple-alarm": "link:../",
